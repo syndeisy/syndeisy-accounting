@@ -1,0 +1,1 @@
+# syndeisy-accounting
