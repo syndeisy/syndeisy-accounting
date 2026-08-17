@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syndeisy Accounting System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff9f7;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 45px 40px;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(87, 9, 9, 0.12);
+            text-align: center;
+        }
+
+        .logo {
+            color: #570909;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .login-container h2 {
+            color: #570909;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #eadbd7;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            border-color: #570909;
+        }
+
+        .login-button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #570909;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #730d0d;
+        }
+
+        .error-message {
+            display: none;
+            margin-top: 15px;
+            padding: 10px 12px;
+            background: #fff0f0;
+            border: 1px solid #e6b8b8;
+            border-radius: 8px;
+            color: #a00000;
+            font-size: 13px;
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="logo">
+            SYNDEISY
+        </div>
+
+        <p class="subtitle">
+            Accounting System
+        </p>
+
+        <h2>Login Admin</h2>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Masukkan username"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Masukkan password"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Masuk
+            </button>
+
+
+            <div
+                id="errorMessage"
+                class="error-message"
+            >
+                Username atau password salah.
+            </div>
+
+        </form>
+
+
+        <p class="footer">
+            Syndeisy Accounting System © 2026
+        </p>
+
+    </div>
+
+
+    <script>
+
+        /* =========================
+           DATA LOGIN ADMIN
+        ========================= */
+
+        const ADMIN_USERNAME = "love";
+        const ADMIN_PASSWORD = "selalu";
+
+
+        /* =========================
+           FORM LOGIN
+        ========================= */
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+
+        loginForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const username =
+                    document.getElementById(
+                        "username"
+                    ).value.trim();
+
+
+                const password =
+                    document.getElementById(
+                        "password"
+                    ).value;
+
+
+                /* =========================
+                   CEK USERNAME & PASSWORD
+                ========================= */
+
+                if (
+                    username === ADMIN_USERNAME &&
+                    password === ADMIN_PASSWORD
+                ) {
+
+                    /*
+                     * Menandai bahwa admin
+                     * sudah berhasil login.
+                     */
+
+                    sessionStorage.setItem(
+                        "syndeisy_admin_logged_in",
+                        "true"
+                    );
+
+
+                    /*
+                     * Masuk ke Dashboard.
+                     */
+
+                    window.location.href =
+                        "dashboard.html";
+
+
+                } else {
+
+                    /*
+                     * Login gagal.
+                     */
+
+                    errorMessage.style.display =
+                        "block";
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           HILANGKAN PESAN ERROR
+           SAAT USER MENGETIK
+        ========================= */
+
+        document.getElementById(
+            "username"
+        ).addEventListener(
+            "input",
+            function() {
+
+                errorMessage.style.display =
+                    "none";
+
+            }
+        );
+
+
+        document.getElementById(
+            "password"
+        ).addEventListener(
+            "input",
+            function() {
+
+                errorMessage.style.display =
+                    "none";
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

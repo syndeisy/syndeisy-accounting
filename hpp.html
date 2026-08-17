@@ -1,0 +1,3532 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HPP - Syndeisy Accounting System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff9f7;
+            color: #333;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #570909;
+            color: white;
+            padding: 30px 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .system-name {
+            font-size: 12px;
+            opacity: .75;
+            margin-bottom: 40px;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 8px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: rgba(255,255,255,.15);
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 25px;
+            left: 20px;
+            right: 20px;
+        }
+
+        .logout a {
+            display: block;
+            padding: 11px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,.4);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 240px;
+            padding: 40px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #570909;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .form-container,
+        .history-section {
+            max-width: 1100px;
+            background: white;
+            border: 1px solid #eadbd7;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            color: #570909;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .section-description {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #570909;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #dcc9c4;
+            border-radius: 9px;
+            background: white;
+            font-size: 13px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #570909;
+        }
+
+        .two-column,
+        .marketplace-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* =========================
+           BAHAN BAKU
+        ========================= */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .material-table {
+            width: 100%;
+            min-width: 950px;
+            border-collapse: collapse;
+        }
+
+        .material-table th {
+            background: #fff9f7;
+            color: #570909;
+            padding: 11px 8px;
+            text-align: left;
+            font-size: 12px;
+            border-bottom: 1px solid #eadbd7;
+        }
+
+        .material-table td {
+            padding: 8px;
+            border-bottom: 1px solid #f0e5e2;
+        }
+
+        .calculated {
+            font-size: 12px;
+            color: #570909;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .add-button,
+        .calculate-button,
+        .save-button,
+        .cancel-edit-button {
+            border: none;
+            border-radius: 9px;
+            padding: 11px 16px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .add-button {
+            margin-top: 12px;
+            background: #f5e6e3;
+            color: #570909;
+        }
+
+        .calculate-button {
+            width: 100%;
+            margin-top: 10px;
+            background: #570909;
+            color: white;
+            font-size: 14px;
+            padding: 14px;
+        }
+
+        .remove-button {
+            border: none;
+            background: #f1dfdb;
+            color: #570909;
+            border-radius: 7px;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        /* =========================
+           OVERHEAD
+        ========================= */
+
+        .overhead-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* =========================
+           HASIL
+        ========================= */
+
+        .result {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #eadbd7;
+        }
+
+        .result h2 {
+            color: #570909;
+            font-size: 21px;
+            margin-bottom: 18px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0e5e2;
+            font-size: 13px;
+        }
+
+        .result-row strong {
+            color: #570909;
+            text-align: right;
+        }
+
+        .hpp-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 14px;
+            padding: 15px;
+            border-radius: 12px;
+            background: #570909;
+            color: white;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           PRICE
+        ========================= */
+
+        .price-box,
+        .marketplace-box {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px solid #eadbd7;
+        }
+
+        .price-box h3,
+        .marketplace-box h3 {
+            color: #570909;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .marketplace-description,
+        .note {
+            color: #777;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .marketplace-description {
+            margin-bottom: 20px;
+        }
+
+        .marketplace-result {
+            margin-top: 20px;
+            padding: 18px;
+            background: white;
+            border: 1px solid #eadbd7;
+            border-radius: 12px;
+        }
+
+        .marketplace-price,
+        .final-price {
+            margin-top: 15px;
+            padding: 17px;
+            background: #570909;
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .note {
+            margin-top: 18px;
+            padding: 14px;
+            background: #fff9f7;
+            border: 1px solid #eadbd7;
+            border-radius: 10px;
+        }
+
+        /* =========================
+           SAVE
+        ========================= */
+
+        .save-actions {
+            margin-top: 18px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .save-button {
+            flex: 1;
+            background: #570909;
+            color: white;
+        }
+
+        .cancel-edit-button {
+            background: #f5e6e3;
+            color: #570909;
+        }
+
+        /* =========================
+           RIWAYAT
+        ========================= */
+
+        .history-section {
+            margin-top: 35px;
+        }
+
+        .history-section h2 {
+            color: #570909;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .history-description {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .history-empty {
+            padding: 25px;
+            text-align: center;
+            color: #888;
+            background: #fff9f7;
+            border-radius: 12px;
+        }
+
+        .history-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .history-table {
+            width: 100%;
+            min-width: 900px;
+            border-collapse: collapse;
+        }
+
+        .history-table th {
+            background: #fff9f7;
+            color: #570909;
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 12px;
+            border-bottom: 1px solid #eadbd7;
+        }
+
+        .history-table td {
+            padding: 12px 10px;
+            font-size: 13px;
+            border-bottom: 1px solid #f0e5e2;
+        }
+
+        .history-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .history-view,
+        .history-edit,
+        .history-delete {
+            border: none;
+            border-radius: 7px;
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .history-view,
+        .history-edit {
+            background: #f5e6e3;
+            color: #570909;
+        }
+
+        .history-delete {
+            background: #570909;
+            color: white;
+        }
+
+        /* =========================
+           MODAL DETAIL
+        ========================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.45);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            width: min(800px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: #570909;
+            font-size: 20px;
+        }
+
+        .close-modal {
+            border: none;
+            background: #f5e6e3;
+            color: #570909;
+            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .detail-section {
+            margin-bottom: 22px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #f0e5e2;
+        }
+
+        .detail-section h3 {
+            color: #570909;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+
+        .detail-item strong {
+            color: #570909;
+        }
+
+        .detail-material {
+            background: #fff9f7;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .logout {
+                position: static;
+                margin-top: 20px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 25px;
+            }
+
+            .two-column,
+            .marketplace-inputs,
+            .overhead-row {
+                grid-template-columns: 1fr;
+            }
+
+            .save-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">SYNDEISY</div>
+
+        <div class="system-name">
+            Accounting System
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="dashboard.html">
+                    🍒 Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="hpp.html" class="active">
+                    🌻 HPPenjualan
+                </a>
+            </li>
+
+            <li>
+                <a href="pemasukan.html">
+                    🌷 Pemasukan
+                </a>
+            </li>
+
+            <li>
+                <a href="pengeluaran.html">
+                    🌼 Pengeluaran
+                </a>
+            </li>
+
+            <li>
+                <a href="laporan.html">
+                    📊 Laporan Laba Rugi
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="logout">
+            <a href="index.html">
+                Keluar
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="main">
+
+        <div class="header">
+
+            <h1>
+                Perhitungan HPP
+            </h1>
+
+
+        </div>
+
+
+        <div class="form-container">
+
+
+            <!-- =========================
+                 DATA PRODUK
+            ========================= -->
+
+            <div class="section">
+
+                <h2 class="section-title">
+                    Data Produk
+                </h2>
+
+
+                <div class="form-group">
+
+                    <label for="namaProduk">
+                        Nama Produk
+                    </label>
+
+                    <input
+                        type="text"
+                        id="namaProduk"
+                        placeholder="Contoh: Boneka Crochet"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 BAHAN BAKU
+            ========================= -->
+
+            <div class="section">
+
+                <h2 class="section-title">
+                    Bahan Baku
+                </h2>
+
+
+                <div class="table-wrapper">
+
+                    <table class="material-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Nama Bahan
+                                </th>
+
+                                <th>
+                                    Harga Beli
+                                </th>
+
+                                <th>
+                                    Isi Kemasan
+                                </th>
+
+                                <th>
+                                    Satuan
+                                </th>
+
+                                <th>
+                                    Dipakai
+                                </th>
+
+                                <th>
+                                    Harga / Satuan
+                                </th>
+
+                                <th>
+                                    Biaya Bahan
+                                </th>
+
+                                <th>
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="materialBody">
+
+                            <tr>
+
+                                <td>
+                                    <input
+                                        type="text"
+                                        class="material-name"
+                                        placeholder="Benang"
+                                    >
+                                </td>
+
+                                <td>
+                                    <input
+                                        type="number"
+                                        class="material-buy-price"
+                                        min="0"
+                                        placeholder="25000"
+                                    >
+                                </td>
+
+                                <td>
+                                    <input
+                                        type="number"
+                                        class="material-package-size"
+                                        min="0"
+                                        step="any"
+                                        placeholder="100"
+                                    >
+                                </td>
+
+                                <td>
+
+                                    <select class="material-unit">
+
+                                        <option value="gram">
+                                            gram
+                                        </option>
+
+                                        <option value="meter">
+                                            meter
+                                        </option>
+
+                                        <option value="pcs">
+                                            pcs
+                                        </option>
+
+                                    </select>
+
+                                </td>
+
+                                <td>
+                                    <input
+                                        type="number"
+                                        class="material-used"
+                                        min="0"
+                                        step="any"
+                                        placeholder="80"
+                                    >
+                                </td>
+
+                                <td class="calculated material-unit-price">
+                                    Rp0
+                                </td>
+
+                                <td class="calculated material-total">
+                                    Rp0
+                                </td>
+
+                                <td>
+
+                                    <button
+                                        type="button"
+                                        class="remove-button"
+                                        onclick="hapusBahan(this)"
+                                    >
+                                        ×
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="add-button"
+                    onclick="tambahBahan()"
+                >
+                    + Tambah Bahan
+                </button>
+
+            </div>
+
+
+            <!-- =========================
+                 TENAGA KERJA
+            ========================= -->
+
+            <div class="section">
+
+                <h2 class="section-title">
+                    Tenaga Kerja Langsung
+                </h2>
+
+
+                <div class="two-column">
+
+                    <div class="form-group">
+
+                        <label for="tarifJam">
+                            Tarif Tenaga Kerja per Jam
+                        </label>
+
+                        <input
+                            type="number"
+                            id="tarifJam"
+                            min="0"
+                            placeholder="Contoh: 10000"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="waktuKerja">
+                            Waktu Pengerjaan (jam)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="waktuKerja"
+                            min="0"
+                            step="any"
+                            placeholder="Contoh: 3"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 OVERHEAD
+            ========================= -->
+
+            <div class="section">
+
+                <h2 class="section-title">
+                    Biaya Overhead Produksi
+                </h2>
+
+
+                <div id="overheadList">
+
+                    <div class="overhead-row">
+
+                        <input
+                            type="text"
+                            class="overhead-name"
+                            placeholder="Contoh: Listrik"
+                        >
+
+                        <input
+                            type="number"
+                            class="overhead-value"
+                            min="0"
+                            placeholder="Nilai biaya"
+                        >
+
+                        <button
+                            type="button"
+                            class="remove-button"
+                            onclick="hapusOverhead(this)"
+                        >
+                            ×
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="add-button"
+                    onclick="tambahOverhead()"
+                >
+                    + Tambah Biaya
+                </button>
+
+            </div>
+
+
+            <!-- =========================
+                 PROFIT MARGIN
+            ========================= -->
+
+            <div class="section">
+
+                <h2 class="section-title">
+                    Target Profit Margin
+                </h2>
+
+
+                <div class="form-group">
+
+                    <label for="profitMargin">
+                        Target Profit Margin (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="profitMargin"
+                        min="0"
+                        max="99.99"
+                        step="0.01"
+                        placeholder="Contoh: 30"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 MARKETPLACE
+            ========================= -->
+
+            <div class="section">
+
+                <h2 class="section-title">
+                    Marketplace
+                </h2>
+
+
+                <div
+                    class="marketplace-box"
+                    style="margin-top:0; padding-top:0; border-top:none;"
+                >
+
+             
+
+
+                    <div class="marketplace-inputs">
+
+
+                        <div class="form-group">
+
+                            <label for="marketplace">
+                                Marketplace
+                            </label>
+
+                            <select id="marketplace">
+
+                                <option value="Shopee">
+                                    Shopee
+                                </option>
+
+                                <option value="Tokopedia">
+                                    Tokopedia
+                                </option>
+
+                                <option value="TikTok Shop">
+                                    TikTok Shop
+                                </option>
+
+                                <option value="Lainnya">
+                                    Lainnya
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="adminMarketplace">
+                                Biaya Admin Marketplace (%)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="adminMarketplace"
+                                min="0"
+                                max="99.99"
+                                step="0.01"
+                                placeholder="Contoh: 10"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 BUTTON HITUNG
+            ========================= -->
+
+            <button
+                type="button"
+                class="calculate-button"
+                onclick="hitungHPP()"
+            >
+                Hitung HPP & Harga Jual
+            </button>
+
+
+            <!-- =========================
+                 HASIL
+            ========================= -->
+
+            <div class="result">
+
+                <h2>
+                    Hasil Perhitungan
+                </h2>
+
+
+                <div class="result-row">
+
+                    <span>
+                        Total Bahan Baku
+                    </span>
+
+                    <strong id="hasilBahan">
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+                <div class="result-row">
+
+                    <span>
+                        Tenaga Kerja Langsung
+                    </span>
+
+                    <strong id="hasilTenaga">
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+                <div class="result-row">
+
+                    <span>
+                        Biaya Overhead Produksi
+                    </span>
+
+                    <strong id="hasilOverhead">
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+                <div class="hpp-total">
+
+                    <span>
+                        HPP
+                    </span>
+
+                    <span id="hasilHPP">
+                        Rp0
+                    </span>
+
+                </div>
+
+
+                <!-- =========================
+                     HARGA JUAL NORMAL
+                ========================= -->
+
+                <div class="price-box">
+
+                    <h3>
+                        Penentuan Harga Jual Normal
+                    </h3>
+
+
+                    <div class="result-row">
+
+                        <span>
+                            Target Profit Margin
+                        </span>
+
+                        <strong id="hasilMargin">
+                            0%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="result-row">
+
+                        <span>
+                            Estimasi Laba
+                        </span>
+
+                        <strong id="hasilLaba">
+                            Rp0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="final-price">
+
+                        <span>
+                            Harga Jual Normal
+                        </span>
+
+                        <span id="hasilHargaJual">
+                            Rp0
+                        </span>
+
+                    </div>
+
+
+                    <div class="note">
+
+                        <strong>
+                            Rumus harga jual:
+                        </strong>
+
+                        <br><br>
+
+                        Harga Jual = HPP ÷ (1 − Target Profit Margin)
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     MARKETPLACE RESULT
+                ========================= -->
+
+                <div class="marketplace-box">
+
+                    <h3>
+                        Harga Jual Marketplace
+                    </h3>
+
+
+                    <div class="marketplace-result">
+
+
+                        <div class="result-row">
+
+                            <span>
+                                Marketplace
+                            </span>
+
+                            <strong id="hasilMarketplace">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="result-row">
+
+                            <span>
+                                Biaya Admin
+                            </span>
+
+                            <strong id="hasilAdmin">
+                                Rp0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="result-row">
+
+                            <span>
+                                Pendapatan Setelah Admin
+                            </span>
+
+                            <strong id="hasilPendapatanBersih">
+                                Rp0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="result-row">
+
+                            <span>
+                                Laba Setelah Admin
+                            </span>
+
+                            <strong id="hasilLabaMarketplace">
+                                Rp0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="marketplace-price">
+
+                            <span>
+                                Harga Jual Marketplace
+                            </span>
+
+                            <span id="hasilHargaMarketplace">
+                                Rp0
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="note">
+
+                        <strong>
+                            Rumus marketplace:
+                        </strong>
+
+                        <br><br>
+
+                        Harga Jual Marketplace =
+                        Harga Jual Normal ÷ (1 − Biaya Admin Marketplace)
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 SIMPAN
+            ========================= -->
+
+            <div class="save-actions">
+
+                <button
+                    type="button"
+                    class="save-button"
+                    id="saveButton"
+                    onclick="simpanHPP()"
+                >
+                    💾 Simpan Perhitungan
+                </button>
+
+
+                <button
+                    type="button"
+                    class="cancel-edit-button"
+                    id="cancelEditButton"
+                    onclick="batalEdit()"
+                    style="display:none;"
+                >
+                    ✖ Batal Edit
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RIWAYAT
+        ========================= -->
+
+        <div class="history-section">
+
+            <h2>
+                📋 Riwayat Perhitungan HPP
+            </h2>
+
+
+            <div id="historyContainer"></div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         MODAL DETAIL
+    ========================= -->
+
+    <div
+        class="modal"
+        id="detailModal"
+    >
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h2>
+                    Detail Perhitungan HPP
+                </h2>
+
+                <button
+                    type="button"
+                    class="close-modal"
+                    onclick="tutupDetail()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div id="detailContent"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        const STORAGE_KEY = "syndeisy_hpp_history";
+
+        let indexSedangDiedit = null;
+
+
+        /* =========================
+           FORMAT RUPIAH
+        ========================= */
+
+        function formatRupiah(angka) {
+
+            return "Rp" +
+                Math.round(Number(angka) || 0)
+                    .toLocaleString("id-ID");
+
+        }
+
+
+        /* =========================
+           ESCAPE HTML
+        ========================= */
+
+        function escapeHTML(text) {
+
+            return String(text ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* =========================
+           AMBIL RIWAYAT
+        ========================= */
+
+        function ambilRiwayat() {
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        localStorage.getItem(STORAGE_KEY) || "[]"
+                    );
+
+                return Array.isArray(data)
+                    ? data
+                    : [];
+
+            } catch (error) {
+
+                console.error(
+                    "Gagal membaca riwayat HPP:",
+                    error
+                );
+
+                return [];
+
+            }
+
+        }
+
+
+        /* =========================
+           TAMBAH BAHAN
+        ========================= */
+
+        function tambahBahan() {
+
+            const body =
+                document.getElementById("materialBody");
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="material-name"
+                        placeholder="Nama bahan"
+                    >
+
+                </td>
+
+
+                <td>
+
+                    <input
+                        type="number"
+                        class="material-buy-price"
+                        min="0"
+                        placeholder="25000"
+                    >
+
+                </td>
+
+
+                <td>
+
+                    <input
+                        type="number"
+                        class="material-package-size"
+                        min="0"
+                        step="any"
+                        placeholder="100"
+                    >
+
+                </td>
+
+
+                <td>
+
+                    <select class="material-unit">
+
+                        <option value="gram">
+                            gram
+                        </option>
+
+                        <option value="meter">
+                            meter
+                        </option>
+
+                        <option value="pcs">
+                            pcs
+                        </option>
+
+                    </select>
+
+                </td>
+
+
+                <td>
+
+                    <input
+                        type="number"
+                        class="material-used"
+                        min="0"
+                        step="any"
+                        placeholder="80"
+                    >
+
+                </td>
+
+
+                <td class="calculated material-unit-price">
+                    Rp0
+                </td>
+
+
+                <td class="calculated material-total">
+                    Rp0
+                </td>
+
+
+                <td>
+
+                    <button
+                        type="button"
+                        class="remove-button"
+                        onclick="hapusBahan(this)"
+                    >
+                        ×
+                    </button>
+
+                </td>
+
+            `;
+
+
+            body.appendChild(row);
+
+        }
+
+
+        /* =========================
+           HAPUS BAHAN
+        ========================= */
+
+        function hapusBahan(button) {
+
+            const rows =
+                document.querySelectorAll(
+                    "#materialBody tr"
+                );
+
+
+            if (rows.length === 1) {
+
+                alert(
+                    "Minimal harus ada satu bahan."
+                );
+
+                return;
+
+            }
+
+
+            button
+                .closest("tr")
+                .remove();
+
+        }
+
+
+        /* =========================
+           TAMBAH OVERHEAD
+        ========================= */
+
+        function tambahOverhead() {
+
+            const list =
+                document.getElementById(
+                    "overheadList"
+                );
+
+
+            const row =
+                document.createElement("div");
+
+
+            row.className =
+                "overhead-row";
+
+
+            row.innerHTML = `
+
+                <input
+                    type="text"
+                    class="overhead-name"
+                    placeholder="Jenis biaya"
+                >
+
+
+                <input
+                    type="number"
+                    class="overhead-value"
+                    min="0"
+                    placeholder="Nilai biaya"
+                >
+
+
+                <button
+                    type="button"
+                    class="remove-button"
+                    onclick="hapusOverhead(this)"
+                >
+                    ×
+                </button>
+
+            `;
+
+
+            list.appendChild(row);
+
+        }
+
+
+        /* =========================
+           HAPUS OVERHEAD
+        ========================= */
+
+        function hapusOverhead(button) {
+
+            const rows =
+                document.querySelectorAll(
+                    ".overhead-row"
+                );
+
+
+            if (rows.length === 1) {
+
+                alert(
+                    "Minimal harus ada satu biaya overhead."
+                );
+
+                return;
+
+            }
+
+
+            button
+                .closest(".overhead-row")
+                .remove();
+
+        }
+
+
+        /* =========================
+           HITUNG HPP
+        ========================= */
+
+        function hitungHPP() {
+
+
+            /* -------------------------
+               BAHAN BAKU
+            ------------------------- */
+
+            const names =
+                document.querySelectorAll(
+                    ".material-name"
+                );
+
+
+            const buyPrices =
+                document.querySelectorAll(
+                    ".material-buy-price"
+                );
+
+
+            const packageSizes =
+                document.querySelectorAll(
+                    ".material-package-size"
+                );
+
+
+            const units =
+                document.querySelectorAll(
+                    ".material-unit"
+                );
+
+
+            const usedAmounts =
+                document.querySelectorAll(
+                    ".material-used"
+                );
+
+
+            const unitPrices =
+                document.querySelectorAll(
+                    ".material-unit-price"
+                );
+
+
+            const materialTotals =
+                document.querySelectorAll(
+                    ".material-total"
+                );
+
+
+            let totalBahan = 0;
+
+
+            const bahan = [];
+
+
+            for (
+                let i = 0;
+                i < buyPrices.length;
+                i++
+            ) {
+
+
+                const nama =
+                    names[i]
+                        .value
+                        .trim();
+
+
+                const hargaBeli =
+                    Number(
+                        buyPrices[i].value
+                    ) || 0;
+
+
+                const isiKemasan =
+                    Number(
+                        packageSizes[i].value
+                    ) || 0;
+
+
+                const satuan =
+                    units[i].value;
+
+
+                const jumlahDipakai =
+                    Number(
+                        usedAmounts[i].value
+                    ) || 0;
+
+
+                const hargaPerSatuan =
+                    isiKemasan > 0
+                        ? hargaBeli / isiKemasan
+                        : 0;
+
+
+                const biayaBahan =
+                    hargaPerSatuan *
+                    jumlahDipakai;
+
+
+                totalBahan +=
+                    biayaBahan;
+
+
+                unitPrices[i]
+                    .textContent =
+                    formatRupiah(
+                        hargaPerSatuan
+                    );
+
+
+                materialTotals[i]
+                    .textContent =
+                    formatRupiah(
+                        biayaBahan
+                    );
+
+
+                bahan.push({
+
+                    nama,
+
+                    hargaBeli,
+
+                    isiKemasan,
+
+                    satuan,
+
+                    jumlahDipakai,
+
+                    hargaPerSatuan,
+
+                    biayaBahan
+
+                });
+
+            }
+
+
+            /* -------------------------
+               TENAGA KERJA
+            ------------------------- */
+
+            const tarifJam =
+                Number(
+                    document.getElementById(
+                        "tarifJam"
+                    ).value
+                ) || 0;
+
+
+            const waktuKerja =
+                Number(
+                    document.getElementById(
+                        "waktuKerja"
+                    ).value
+                ) || 0;
+
+
+            const totalTenaga =
+                tarifJam *
+                waktuKerja;
+
+
+            /* -------------------------
+               OVERHEAD
+            ------------------------- */
+
+            const overhead = [];
+
+
+            let totalOverhead = 0;
+
+
+            document
+                .querySelectorAll(
+                    ".overhead-row"
+                )
+                .forEach(row => {
+
+
+                    const nama =
+                        row.querySelector(
+                            ".overhead-name"
+                        )
+                        .value
+                        .trim();
+
+
+                    const nilai =
+                        Number(
+                            row.querySelector(
+                                ".overhead-value"
+                            ).value
+                        ) || 0;
+
+
+                    totalOverhead +=
+                        nilai;
+
+
+                    overhead.push({
+
+                        nama,
+
+                        nilai
+
+                    });
+
+                });
+
+
+            /* -------------------------
+               TOTAL HPP
+            ------------------------- */
+
+            const hpp =
+                totalBahan +
+                totalTenaga +
+                totalOverhead;
+
+
+            /* -------------------------
+               PROFIT MARGIN
+            ------------------------- */
+
+            const margin =
+                Number(
+                    document.getElementById(
+                        "profitMargin"
+                    ).value
+                ) || 0;
+
+
+            if (margin >= 100) {
+
+                alert(
+                    "Target profit margin harus kurang dari 100%."
+                );
+
+                return null;
+
+            }
+
+
+            const marginDecimal =
+                margin / 100;
+
+
+            const hargaJual =
+                margin > 0
+                    ? hpp /
+                      (1 - marginDecimal)
+                    : hpp;
+
+
+            const laba =
+                hargaJual -
+                hpp;
+
+
+            /* -------------------------
+               MARKETPLACE
+            ------------------------- */
+
+            const marketplace =
+                document.getElementById(
+                    "marketplace"
+                ).value;
+
+
+            const admin =
+                Number(
+                    document.getElementById(
+                        "adminMarketplace"
+                    ).value
+                ) || 0;
+
+
+            if (admin >= 100) {
+
+                alert(
+                    "Biaya admin marketplace harus kurang dari 100%."
+                );
+
+                return null;
+
+            }
+
+
+            const adminDecimal =
+                admin / 100;
+
+
+            const hargaMarketplace =
+                admin > 0
+
+                    ? hargaJual /
+                      (1 - adminDecimal)
+
+                    : hargaJual;
+
+
+            const biayaAdmin =
+                hargaMarketplace *
+                adminDecimal;
+
+
+            const pendapatanBersih =
+                hargaMarketplace -
+                biayaAdmin;
+
+
+            const labaMarketplace =
+                pendapatanBersih -
+                hpp;
+
+
+            /* -------------------------
+               TAMPILKAN HASIL
+            ------------------------- */
+
+            document.getElementById(
+                "hasilBahan"
+            ).textContent =
+                formatRupiah(
+                    totalBahan
+                );
+
+
+            document.getElementById(
+                "hasilTenaga"
+            ).textContent =
+                formatRupiah(
+                    totalTenaga
+                );
+
+
+            document.getElementById(
+                "hasilOverhead"
+            ).textContent =
+                formatRupiah(
+                    totalOverhead
+                );
+
+
+            document.getElementById(
+                "hasilHPP"
+            ).textContent =
+                formatRupiah(
+                    hpp
+                );
+
+
+            document.getElementById(
+                "hasilMargin"
+            ).textContent =
+                margin + "%";
+
+
+            document.getElementById(
+                "hasilLaba"
+            ).textContent =
+                formatRupiah(
+                    laba
+                );
+
+
+            document.getElementById(
+                "hasilHargaJual"
+            ).textContent =
+                formatRupiah(
+                    hargaJual
+                );
+
+
+            document.getElementById(
+                "hasilMarketplace"
+            ).textContent =
+                marketplace;
+
+
+            document.getElementById(
+                "hasilAdmin"
+            ).textContent =
+                formatRupiah(
+                    biayaAdmin
+                );
+
+
+            document.getElementById(
+                "hasilPendapatanBersih"
+            ).textContent =
+                formatRupiah(
+                    pendapatanBersih
+                );
+
+
+            document.getElementById(
+                "hasilLabaMarketplace"
+            ).textContent =
+                formatRupiah(
+                    labaMarketplace
+                );
+
+
+            document.getElementById(
+                "hasilHargaMarketplace"
+            ).textContent =
+                formatRupiah(
+                    hargaMarketplace
+                );
+
+
+            /* -------------------------
+               RETURN DATA
+            ------------------------- */
+
+            return {
+
+                id: null,
+
+                tanggal: null,
+
+                namaProduk:
+                    document.getElementById(
+                        "namaProduk"
+                    )
+                    .value
+                    .trim()
+                    ||
+                    "Tanpa Nama",
+
+
+                bahan,
+
+
+                tenagaKerja: {
+
+                    tarifJam,
+
+                    waktuKerja,
+
+                    total:
+                        totalTenaga
+
+                },
+
+
+                overhead,
+
+
+                totalBahan,
+
+                totalTenaga,
+
+                totalOverhead,
+
+                hpp,
+
+                profitMargin:
+                    margin,
+
+                hargaJual,
+
+                laba,
+
+                marketplace,
+
+                adminMarketplace:
+                    admin,
+
+                biayaAdmin,
+
+                hargaMarketplace,
+
+                pendapatanBersih,
+
+                labaMarketplace
+
+            };
+
+        }
+
+
+        /* =========================
+           SIMPAN HPP
+        ========================= */
+
+        function simpanHPP() {
+
+            const hasil =
+                hitungHPP();
+
+
+            if (!hasil) {
+                return;
+            }
+
+
+            const riwayat =
+                ambilRiwayat();
+
+
+            /* -------------------------
+               MODE EDIT
+            ------------------------- */
+
+            if (
+                indexSedangDiedit !== null
+            ) {
+
+
+                const dataLama =
+                    riwayat[
+                        indexSedangDiedit
+                    ];
+
+
+                if (!dataLama) {
+
+                    indexSedangDiedit =
+                        null;
+
+                    resetModeEdit();
+
+                    alert(
+                        "Data yang sedang diedit tidak ditemukan."
+                    );
+
+                    return;
+
+                }
+
+
+                hasil.id =
+                    dataLama.id ||
+                    Date.now();
+
+
+                hasil.tanggal =
+                    dataLama.tanggal ||
+                    new Date().toISOString();
+
+
+                riwayat[
+                    indexSedangDiedit
+                ] =
+                    hasil;
+
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(
+                        riwayat
+                    )
+                );
+
+
+                indexSedangDiedit =
+                    null;
+
+
+                resetModeEdit();
+
+
+                tampilkanRiwayat();
+
+
+                alert(
+                    "Perhitungan HPP berhasil diperbarui."
+                );
+
+
+                return;
+
+            }
+
+
+            /* -------------------------
+               MODE SIMPAN BARU
+            ------------------------- */
+
+            hasil.id =
+                Date.now();
+
+
+            hasil.tanggal =
+                new Date().toISOString();
+
+
+            riwayat.unshift(
+                hasil
+            );
+
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(
+                    riwayat
+                )
+            );
+
+
+            tampilkanRiwayat();
+
+
+            alert(
+                "Perhitungan HPP berhasil disimpan."
+            );
+
+        }
+
+
+        /* =========================
+           EDIT RIWAYAT
+        ========================= */
+
+        function editRiwayat(index) {
+
+            const riwayat =
+                ambilRiwayat();
+
+
+            const item =
+                riwayat[index];
+
+
+            if (!item) {
+
+                alert(
+                    "Data riwayat tidak ditemukan."
+                );
+
+                return;
+
+            }
+
+
+            indexSedangDiedit =
+                index;
+
+
+            /* -------------------------
+               DATA PRODUK
+            ------------------------- */
+
+            document.getElementById(
+                "namaProduk"
+            ).value =
+                item.namaProduk ||
+                "";
+
+
+            /* -------------------------
+               TENAGA KERJA
+            ------------------------- */
+
+            document.getElementById(
+                "tarifJam"
+            ).value =
+                item.tenagaKerja?.tarifJam ||
+                0;
+
+
+            document.getElementById(
+                "waktuKerja"
+            ).value =
+                item.tenagaKerja?.waktuKerja ||
+                0;
+
+
+            /* -------------------------
+               PROFIT MARGIN
+            ------------------------- */
+
+            document.getElementById(
+                "profitMargin"
+            ).value =
+                item.profitMargin ||
+                0;
+
+
+            /* -------------------------
+               MARKETPLACE
+            ------------------------- */
+
+            document.getElementById(
+                "marketplace"
+            ).value =
+                item.marketplace ||
+                "Shopee";
+
+
+            document.getElementById(
+                "adminMarketplace"
+            ).value =
+                item.adminMarketplace ||
+                0;
+
+
+            /* -------------------------
+               BAHAN
+            ------------------------- */
+
+            const materialBody =
+                document.getElementById(
+                    "materialBody"
+                );
+
+
+            materialBody.innerHTML =
+                "";
+
+
+            (
+                item.bahan ||
+                []
+            )
+            .forEach(
+                bahan => {
+
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+
+                            <input
+                                type="text"
+                                class="material-name"
+                                value="${escapeHTML(bahan.nama)}"
+                            >
+
+                        </td>
+
+
+                        <td>
+
+                            <input
+                                type="number"
+                                class="material-buy-price"
+                                min="0"
+                                value="${bahan.hargaBeli}"
+                            >
+
+                        </td>
+
+
+                        <td>
+
+                            <input
+                                type="number"
+                                class="material-package-size"
+                                min="0"
+                                step="any"
+                                value="${bahan.isiKemasan}"
+                            >
+
+                        </td>
+
+
+                        <td>
+
+                            <select class="material-unit">
+
+                                <option
+                                    value="gram"
+                                    ${
+                                        bahan.satuan === "gram"
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    gram
+                                </option>
+
+
+                                <option
+                                    value="meter"
+                                    ${
+                                        bahan.satuan === "meter"
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    meter
+                                </option>
+
+
+                                <option
+                                    value="pcs"
+                                    ${
+                                        bahan.satuan === "pcs"
+                                            ? "selected"
+                                            : ""
+                                    }
+                                >
+                                    pcs
+                                </option>
+
+                            </select>
+
+                        </td>
+
+
+                        <td>
+
+                            <input
+                                type="number"
+                                class="material-used"
+                                min="0"
+                                step="any"
+                                value="${bahan.jumlahDipakai}"
+                            >
+
+                        </td>
+
+
+                        <td class="calculated material-unit-price">
+
+                            ${formatRupiah(
+                                bahan.hargaPerSatuan
+                            )}
+
+                        </td>
+
+
+                        <td class="calculated material-total">
+
+                            ${formatRupiah(
+                                bahan.biayaBahan
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <button
+                                type="button"
+                                class="remove-button"
+                                onclick="hapusBahan(this)"
+                            >
+                                ×
+                            </button>
+
+                        </td>
+
+                    `;
+
+
+                    materialBody.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+
+            if (
+                !item.bahan ||
+                item.bahan.length === 0
+            ) {
+
+                tambahBahan();
+
+            }
+
+
+            /* -------------------------
+               OVERHEAD
+            ------------------------- */
+
+            const overheadList =
+                document.getElementById(
+                    "overheadList"
+                );
+
+
+            overheadList.innerHTML =
+                "";
+
+
+            (
+                item.overhead ||
+                []
+            )
+            .forEach(
+                overhead => {
+
+
+                    const row =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    row.className =
+                        "overhead-row";
+
+
+                    row.innerHTML = `
+
+                        <input
+                            type="text"
+                            class="overhead-name"
+                            value="${escapeHTML(
+                                overhead.nama
+                            )}"
+                        >
+
+
+                        <input
+                            type="number"
+                            class="overhead-value"
+                            min="0"
+                            value="${overhead.nilai}"
+                        >
+
+
+                        <button
+                            type="button"
+                            class="remove-button"
+                            onclick="hapusOverhead(this)"
+                        >
+                            ×
+                        </button>
+
+                    `;
+
+
+                    overheadList.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+
+            if (
+                !item.overhead ||
+                item.overhead.length === 0
+            ) {
+
+                tambahOverhead();
+
+            }
+
+
+            /* -------------------------
+               MODE EDIT UI
+            ------------------------- */
+
+            document.getElementById(
+                "saveButton"
+            ).textContent =
+                "💾 Simpan Perubahan";
+
+
+            document.getElementById(
+                "cancelEditButton"
+            ).style.display =
+                "block";
+
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+
+            alert(
+                "Data HPP sudah dimuat. Data lama tetap aman sampai kamu menekan Simpan Perubahan."
+            );
+
+        }
+
+
+        /* =========================
+           BATAL EDIT
+        ========================= */
+
+        function batalEdit() {
+
+            indexSedangDiedit =
+                null;
+
+
+            resetModeEdit();
+
+
+            alert(
+                "Mode edit dibatalkan. Data riwayat tetap aman."
+            );
+
+        }
+
+
+        /* =========================
+           RESET MODE EDIT
+        ========================= */
+
+        function resetModeEdit() {
+
+            document.getElementById(
+                "saveButton"
+            ).textContent =
+                "💾 Simpan Perhitungan";
+
+
+            document.getElementById(
+                "cancelEditButton"
+            ).style.display =
+                "none";
+
+        }
+
+
+        /* =========================
+           HAPUS RIWAYAT
+        ========================= */
+
+        function hapusRiwayat(index) {
+
+            const riwayat =
+                ambilRiwayat();
+
+
+            const item =
+                riwayat[index];
+
+
+            if (!item) {
+                return;
+            }
+
+
+            if (
+                !confirm(
+                    `Hapus perhitungan HPP untuk produk "${item.namaProduk}"?`
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            riwayat.splice(
+                index,
+                1
+            );
+
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(
+                    riwayat
+                )
+            );
+
+
+            if (
+                indexSedangDiedit ===
+                index
+            ) {
+
+                indexSedangDiedit =
+                    null;
+
+                resetModeEdit();
+
+            }
+
+
+            tampilkanRiwayat();
+
+        }
+
+
+        /* =========================
+           TAMPILKAN RIWAYAT
+        ========================= */
+
+        function tampilkanRiwayat() {
+
+            const container =
+                document.getElementById(
+                    "historyContainer"
+                );
+
+
+            const riwayat =
+                ambilRiwayat();
+
+
+            if (!riwayat.length) {
+
+                container.innerHTML = `
+
+                    <div class="history-empty">
+
+                        Belum ada perhitungan HPP
+                        yang disimpan.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            let html = `
+
+                <div class="history-table-wrapper">
+
+                    <table class="history-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Tanggal
+                                </th>
+
+                                <th>
+                                    Produk
+                                </th>
+
+                                <th>
+                                    HPP
+                                </th>
+
+                                <th>
+                                    Margin
+                                </th>
+
+                                <th>
+                                    Harga Normal
+                                </th>
+
+                                <th>
+                                    Marketplace
+                                </th>
+
+                                <th>
+                                    Harga Marketplace
+                                </th>
+
+                                <th>
+                                    Aksi
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+            `;
+
+
+            riwayat.forEach(
+                (item, index) => {
+
+
+                    const tanggal =
+                        item.tanggal
+
+                            ? new Date(
+                                item.tanggal
+                            )
+                            .toLocaleString(
+                                "id-ID"
+                            )
+
+                            : "-";
+
+
+                    html += `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHTML(
+                                    tanggal
+                                )}
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+
+                                    ${escapeHTML(
+                                        item.namaProduk ||
+                                        "Tanpa Nama"
+                                    )}
+
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+                                ${formatRupiah(
+                                    item.hpp
+                                )}
+                            </td>
+
+
+                            <td>
+                                ${item.profitMargin}%
+                            </td>
+
+
+                            <td>
+                                ${formatRupiah(
+                                    item.hargaJual
+                                )}
+                            </td>
+
+
+                            <td>
+                                ${escapeHTML(
+                                    item.marketplace ||
+                                    "-"
+                                )}
+                            </td>
+
+
+                            <td>
+                                ${formatRupiah(
+                                    item.hargaMarketplace
+                                )}
+                            </td>
+
+
+                            <td>
+
+                                <div class="history-actions">
+
+                                    <button
+                                        type="button"
+                                        class="history-edit"
+                                        onclick="editRiwayat(${index})"
+                                    >
+                                        Edit
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="history-view"
+                                        onclick="lihatDetail(${index})"
+                                    >
+                                        Lihat
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="history-delete"
+                                        onclick="hapusRiwayat(${index})"
+                                    >
+                                        Hapus
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            );
+
+
+            html += `
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            `;
+
+
+            container.innerHTML =
+                html;
+
+        }
+
+
+        /* =========================
+           LIHAT DETAIL
+        ========================= */
+
+        function lihatDetail(index) {
+
+            const riwayat =
+                ambilRiwayat();
+
+
+            const item =
+                riwayat[index];
+
+
+            if (!item) {
+                return;
+            }
+
+
+            let bahanHTML =
+                "";
+
+
+            (
+                item.bahan ||
+                []
+            )
+            .forEach(
+                bahan => {
+
+
+                    bahanHTML += `
+
+                        <div class="detail-material">
+
+
+                            <div class="detail-item">
+
+                                <span>
+                                    Nama Bahan
+                                </span>
+
+                                <strong>
+                                    ${escapeHTML(
+                                        bahan.nama
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-item">
+
+                                <span>
+                                    Harga Beli
+                                </span>
+
+                                <strong>
+                                    ${formatRupiah(
+                                        bahan.hargaBeli
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-item">
+
+                                <span>
+                                    Isi Kemasan
+                                </span>
+
+                                <strong>
+                                    ${bahan.isiKemasan}
+                                    ${escapeHTML(
+                                        bahan.satuan
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-item">
+
+                                <span>
+                                    Dipakai
+                                </span>
+
+                                <strong>
+                                    ${bahan.jumlahDipakai}
+                                    ${escapeHTML(
+                                        bahan.satuan
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="detail-item">
+
+                                <span>
+                                    Biaya Bahan
+                                </span>
+
+                                <strong>
+                                    ${formatRupiah(
+                                        bahan.biayaBahan
+                                    )}
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            let overheadHTML =
+                "";
+
+
+            (
+                item.overhead ||
+                []
+            )
+            .forEach(
+                overhead => {
+
+
+                    overheadHTML += `
+
+                        <div class="detail-item">
+
+                            <span>
+                                ${escapeHTML(
+                                    overhead.nama ||
+                                    "Biaya"
+                                )}
+                            </span>
+
+                            <strong>
+                                ${formatRupiah(
+                                    overhead.nilai
+                                )}
+                            </strong>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            document.getElementById(
+                "detailContent"
+            ).innerHTML = `
+
+
+                <div class="detail-section">
+
+                    <h3>
+                        Data Produk
+                    </h3>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Nama Produk
+                        </span>
+
+                        <strong>
+                            ${escapeHTML(
+                                item.namaProduk
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Tanggal
+                        </span>
+
+                        <strong>
+
+                            ${escapeHTML(
+                                item.tanggal
+
+                                    ? new Date(
+                                        item.tanggal
+                                    )
+                                    .toLocaleString(
+                                        "id-ID"
+                                    )
+
+                                    : "-"
+                            )}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail-section">
+
+                    <h3>
+                        Bahan Baku
+                    </h3>
+
+
+                    ${bahanHTML}
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Total Bahan Baku
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.totalBahan
+                            )}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail-section">
+
+                    <h3>
+                        Tenaga Kerja
+                    </h3>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Tarif per Jam
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.tenagaKerja?.tarifJam
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Waktu Pengerjaan
+                        </span>
+
+                        <strong>
+                            ${item.tenagaKerja?.waktuKerja || 0}
+                            jam
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Total Tenaga Kerja
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.totalTenaga
+                            )}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail-section">
+
+                    <h3>
+                        Overhead
+                    </h3>
+
+
+                    ${overheadHTML}
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Total Overhead
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.totalOverhead
+                            )}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail-section">
+
+                    <h3>
+                        Hasil HPP
+                    </h3>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            HPP
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.hpp
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Target Profit Margin
+                        </span>
+
+                        <strong>
+                            ${item.profitMargin}%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Estimasi Laba
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.laba
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Harga Jual Normal
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.hargaJual
+                            )}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="detail-section">
+
+                    <h3>
+                        Marketplace
+                    </h3>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Marketplace
+                        </span>
+
+                        <strong>
+                            ${escapeHTML(
+                                item.marketplace ||
+                                "-"
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Admin Marketplace
+                        </span>
+
+                        <strong>
+                            ${item.adminMarketplace || 0}%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Biaya Admin
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.biayaAdmin
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Harga Jual Marketplace
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.hargaMarketplace
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Pendapatan Setelah Admin
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.pendapatanBersih
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Laba Setelah Admin
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.labaMarketplace
+                            )}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            document.getElementById(
+                "detailModal"
+            ).style.display =
+                "flex";
+
+        }
+
+
+        /* =========================
+           TUTUP DETAIL
+        ========================= */
+
+        function tutupDetail() {
+
+            document.getElementById(
+                "detailModal"
+            ).style.display =
+                "none";
+
+        }
+
+
+        /* =========================
+           KLIK DI LUAR MODAL
+        ========================= */
+
+        document
+            .getElementById(
+                "detailModal"
+            )
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target === this
+                    ) {
+
+                        tutupDetail();
+
+                    }
+
+                }
+            );
+
+
+        /* =========================
+           LOAD
+        ========================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                tampilkanRiwayat();
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

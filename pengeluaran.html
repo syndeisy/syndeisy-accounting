@@ -1,0 +1,1753 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengeluaran - Syndeisy Accounting System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff9f7;
+            color: #333;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #570909;
+            color: white;
+            padding: 30px 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .system-name {
+            font-size: 12px;
+            opacity: .75;
+            margin-bottom: 40px;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 8px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: rgba(255,255,255,.15);
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 25px;
+            left: 20px;
+            right: 20px;
+        }
+
+        .logout a {
+            display: block;
+            padding: 11px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,.4);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 240px;
+            padding: 40px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #570909;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .form-container,
+        .summary-section,
+        .history-section {
+            max-width: 1100px;
+            background: white;
+            border: 1px solid #eadbd7;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            color: #570909;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .section-description {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #570909;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #dcc9c4;
+            border-radius: 9px;
+            background: white;
+            font-size: 13px;
+            outline: none;
+            font-family: Arial, sans-serif;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #570909;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .save-button,
+        .cancel-edit-button,
+        .history-edit,
+        .history-delete {
+            border: none;
+            border-radius: 9px;
+            padding: 11px 16px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .save-button {
+            width: 100%;
+            background: #570909;
+            color: white;
+        }
+
+        .cancel-edit-button {
+            background: #f5e6e3;
+            color: #570909;
+        }
+
+        .save-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .save-actions .save-button {
+            flex: 1;
+        }
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        .summary-section {
+            margin-top: 30px;
+        }
+
+        .summary-section h2 {
+            color: #570909;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .summary-description {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+            background: #570909;
+            color: white;
+            padding: 22px;
+            border-radius: 14px;
+        }
+
+        .summary-card span {
+            display: block;
+            font-size: 13px;
+            opacity: .85;
+            margin-bottom: 8px;
+        }
+
+        .summary-card strong {
+            display: block;
+            font-size: 26px;
+        }
+
+        /* =========================
+           HISTORY
+        ========================= */
+
+        .history-section {
+            margin-top: 30px;
+        }
+
+        .history-section h2 {
+            color: #570909;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .history-description {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .history-empty {
+            padding: 25px;
+            text-align: center;
+            color: #888;
+            background: #fff9f7;
+            border-radius: 12px;
+        }
+
+        .history-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .history-table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        .history-table th {
+            background: #fff9f7;
+            color: #570909;
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 12px;
+            border-bottom: 1px solid #eadbd7;
+        }
+
+        .history-table td {
+            padding: 12px 10px;
+            font-size: 13px;
+            border-bottom: 1px solid #f0e5e2;
+            vertical-align: top;
+        }
+
+        .nominal {
+            color: #570909;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 7px;
+            background: #f5e6e3;
+            color: #570909;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .history-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .history-edit {
+            background: #f5e6e3;
+            color: #570909;
+        }
+
+        .history-delete {
+            background: #570909;
+            color: white;
+        }
+
+        /* =========================
+           MODAL DETAIL
+        ========================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.45);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            width: min(700px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: #570909;
+            font-size: 20px;
+        }
+
+        .close-modal {
+            border: none;
+            background: #f5e6e3;
+            color: #570909;
+            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .detail-section {
+            margin-bottom: 22px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #f0e5e2;
+        }
+
+        .detail-section h3 {
+            color: #570909;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+
+        .detail-item strong {
+            color: #570909;
+            text-align: right;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .logout {
+                position: static;
+                margin-top: 20px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 25px;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .save-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            SYNDEISY
+        </div>
+
+        <div class="system-name">
+            Accounting System
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="dashboard.html">
+                    🍒 Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="hpp.html">
+                    🌻 HPPenjualan
+                </a>
+            </li>
+
+            <li>
+                <a href="pemasukan.html">
+                    🌷 Pemasukan
+                </a>
+            </li>
+
+            <li>
+                <a href="pengeluaran.html" class="active">
+                    🌼 Pengeluaran
+                </a>
+            </li>
+
+            <li>
+                <a href="laporan.html">
+                    📊 Laporan Laba Rugi
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="logout">
+            <a href="index.html">
+                Keluar
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="main">
+
+        <div class="header">
+
+            <h1>
+                Pengeluaran
+            </h1>
+
+        </div>
+
+
+        <!-- =========================
+             FORM PENGELUARAN
+        ========================= -->
+
+        <div class="form-container">
+
+            <div class="section">
+
+
+
+                <div class="two-column">
+
+                    <div class="form-group">
+
+                        <label for="tanggal">
+                            Tanggal
+                        </label>
+
+                        <input
+                            type="date"
+                            id="tanggal"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="kategori">
+                            Kategori Pengeluaran
+                        </label>
+
+                        <select id="kategori">
+
+                            <option value="Bahan Baku">
+                                Bahan Baku
+                            </option>
+
+                            <option value="Operasional">
+                                Operasional
+                            </option>
+
+                            <option value="Peralatan">
+                                Peralatan
+                            </option>
+
+                            <option value="Kemasan">
+                                Kemasan
+                            </option>
+
+                            <option value="Transportasi">
+                                Transportasi
+                            </option>
+
+                            <option value="Marketing">
+                                Marketing
+                            </option>
+
+                            <option value="Lainnya">
+                                Lainnya
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="keterangan">
+                        Keterangan Pengeluaran
+                    </label>
+
+                    <input
+                        type="text"
+                        id="keterangan"
+                        placeholder="Contoh: Beli benang untuk produksi"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="nominal">
+                        Nominal Pengeluaran (Rp)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="nominal"
+                        min="0"
+                        step="1"
+                        placeholder="Contoh: 50000"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="catatan">
+                        Catatan
+                    </label>
+
+                    <textarea
+                        id="catatan"
+                        placeholder="Catatan tambahan (opsional)"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="save-actions">
+
+                    <button
+                        type="button"
+                        class="save-button"
+                        id="saveButton"
+                        onclick="simpanPengeluaran()"
+                    >
+                        💾 Simpan Pengeluaran
+                    </button>
+
+                    <button
+                        type="button"
+                        class="cancel-edit-button"
+                        id="cancelEditButton"
+                        onclick="batalEdit()"
+                        style="display:none;"
+                    >
+                        ✖ Batal Edit
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RINGKASAN
+        ========================= -->
+
+        <div class="summary-section">
+
+            <h2>
+                💰 Ringkasan Pengeluaran
+            </h2>
+
+            <p class="summary-description">
+                Total seluruh pengeluaran yang tersimpan pada halaman ini.
+            </p>
+
+            <div class="summary-card">
+
+                <span>
+                    Total Pengeluaran
+                </span>
+
+                <strong id="totalPengeluaran">
+                    Rp0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RIWAYAT
+        ========================= -->
+
+        <div class="history-section">
+
+            <h2>
+                📋 Riwayat Pengeluaran
+            </h2>
+
+            <p class="history-description">
+                Semua pengeluaran yang tersimpan di browser ini akan ditampilkan
+                di bawah. Data dapat diedit atau dihapus.
+            </p>
+
+            <div id="historyContainer"></div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         MODAL DETAIL
+    ========================= -->
+
+    <div
+        class="modal"
+        id="detailModal"
+    >
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h2>
+                    Detail Pengeluaran
+                </h2>
+
+                <button
+                    type="button"
+                    class="close-modal"
+                    onclick="tutupDetail()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <div id="detailContent"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        /* =========================
+           LOCAL STORAGE
+        ========================= */
+
+        const STORAGE_KEY =
+            "syndeisy_pengeluaran_history";
+
+
+        let indexSedangDiedit = null;
+
+
+        /* =========================
+           FORMAT RUPIAH
+        ========================= */
+
+        function formatRupiah(angka) {
+
+            return "Rp" +
+                Math.round(Number(angka) || 0)
+                    .toLocaleString("id-ID");
+
+        }
+
+
+        /* =========================
+           ESCAPE HTML
+        ========================= */
+
+        function escapeHTML(text) {
+
+            return String(text ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* =========================
+           AMBIL DATA
+        ========================= */
+
+        function ambilRiwayat() {
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        localStorage.getItem(
+                            STORAGE_KEY
+                        ) || "[]"
+                    );
+
+                return Array.isArray(data)
+                    ? data
+                    : [];
+
+            } catch (error) {
+
+                console.error(
+                    "Gagal membaca riwayat pengeluaran:",
+                    error
+                );
+
+                return [];
+
+            }
+
+        }
+
+
+        /* =========================
+           SET TANGGAL DEFAULT
+        ========================= */
+
+        function setTanggalHariIni() {
+
+            const input =
+                document.getElementById(
+                    "tanggal"
+                );
+
+            const sekarang =
+                new Date();
+
+            const tahun =
+                sekarang.getFullYear();
+
+            const bulan =
+                String(
+                    sekarang.getMonth() + 1
+                ).padStart(2, "0");
+
+            const hari =
+                String(
+                    sekarang.getDate()
+                ).padStart(2, "0");
+
+            input.value =
+                `${tahun}-${bulan}-${hari}`;
+
+        }
+
+
+        /* =========================
+           SIMPAN PENGELUARAN
+        ========================= */
+
+        function simpanPengeluaran() {
+
+            const tanggal =
+                document.getElementById(
+                    "tanggal"
+                ).value;
+
+
+            const keterangan =
+                document.getElementById(
+                    "keterangan"
+                ).value.trim();
+
+
+            const kategori =
+                document.getElementById(
+                    "kategori"
+                ).value;
+
+
+            const nominal =
+                Number(
+                    document.getElementById(
+                        "nominal"
+                    ).value
+                ) || 0;
+
+
+            const catatan =
+                document.getElementById(
+                    "catatan"
+                ).value.trim();
+
+
+            /* -------------------------
+               VALIDASI
+            ------------------------- */
+
+            if (!tanggal) {
+
+                alert(
+                    "Tanggal pengeluaran wajib diisi."
+                );
+
+                return;
+
+            }
+
+
+            if (!keterangan) {
+
+                alert(
+                    "Keterangan pengeluaran wajib diisi."
+                );
+
+                document.getElementById(
+                    "keterangan"
+                ).focus();
+
+                return;
+
+            }
+
+
+            if (nominal <= 0) {
+
+                alert(
+                    "Nominal pengeluaran harus lebih dari Rp0."
+                );
+
+                document.getElementById(
+                    "nominal"
+                ).focus();
+
+                return;
+
+            }
+
+
+            const riwayat =
+                ambilRiwayat();
+
+
+            const dataBaru = {
+
+                id:
+                    Date.now(),
+
+                tanggal,
+
+                keterangan,
+
+                kategori,
+
+                nominal,
+
+                catatan,
+
+                dibuatPada:
+                    new Date().toISOString()
+
+            };
+
+
+            /* =========================
+               MODE EDIT
+            ========================= */
+
+            if (
+                indexSedangDiedit !== null
+            ) {
+
+                const dataLama =
+                    riwayat[
+                        indexSedangDiedit
+                    ];
+
+
+                if (!dataLama) {
+
+                    indexSedangDiedit =
+                        null;
+
+                    resetForm();
+
+
+                    alert(
+                        "Data yang sedang diedit tidak ditemukan."
+                    );
+
+                    return;
+
+                }
+
+
+                dataBaru.id =
+                    dataLama.id ||
+                    Date.now();
+
+
+                dataBaru.dibuatPada =
+                    dataLama.dibuatPada ||
+                    new Date().toISOString();
+
+
+                riwayat[
+                    indexSedangDiedit
+                ] =
+                    dataBaru;
+
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(
+                        riwayat
+                    )
+                );
+
+
+                indexSedangDiedit =
+                    null;
+
+
+                resetModeEdit();
+
+
+                resetForm();
+
+
+                tampilkanRiwayat();
+
+
+                alert(
+                    "Pengeluaran berhasil diperbarui."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               SIMPAN BARU
+            ========================= */
+
+            riwayat.unshift(
+                dataBaru
+            );
+
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(
+                    riwayat
+                )
+            );
+
+
+            resetForm();
+
+
+            tampilkanRiwayat();
+
+
+            alert(
+                "Pengeluaran berhasil disimpan."
+            );
+
+        }
+
+
+        /* =========================
+           RESET FORM
+        ========================= */
+
+        function resetForm() {
+
+            document.getElementById(
+                "keterangan"
+            ).value = "";
+
+
+            document.getElementById(
+                "nominal"
+            ).value = "";
+
+
+            document.getElementById(
+                "catatan"
+            ).value = "";
+
+
+            document.getElementById(
+                "kategori"
+            ).value =
+                "Bahan Baku";
+
+
+            setTanggalHariIni();
+
+        }
+
+
+        /* =========================
+           EDIT
+        ========================= */
+
+        function editRiwayat(index) {
+
+            const riwayat =
+                ambilRiwayat();
+
+
+            const item =
+                riwayat[index];
+
+
+            if (!item) {
+
+                alert(
+                    "Data pengeluaran tidak ditemukan."
+                );
+
+                return;
+
+            }
+
+
+            indexSedangDiedit =
+                index;
+
+
+            document.getElementById(
+                "tanggal"
+            ).value =
+                item.tanggal || "";
+
+
+            document.getElementById(
+                "keterangan"
+            ).value =
+                item.keterangan || "";
+
+
+            document.getElementById(
+                "kategori"
+            ).value =
+                item.kategori ||
+                "Lainnya";
+
+
+            document.getElementById(
+                "nominal"
+            ).value =
+                item.nominal || 0;
+
+
+            document.getElementById(
+                "catatan"
+            ).value =
+                item.catatan || "";
+
+
+            document.getElementById(
+                "saveButton"
+            ).textContent =
+                "💾 Simpan Perubahan";
+
+
+            document.getElementById(
+                "cancelEditButton"
+            ).style.display =
+                "block";
+
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+        }
+
+
+        /* =========================
+           BATAL EDIT
+        ========================= */
+
+        function batalEdit() {
+
+            indexSedangDiedit =
+                null;
+
+
+            resetModeEdit();
+
+
+            resetForm();
+
+        }
+
+
+        /* =========================
+           RESET MODE EDIT
+        ========================= */
+
+        function resetModeEdit() {
+
+            document.getElementById(
+                "saveButton"
+            ).textContent =
+                "💾 Simpan Pengeluaran";
+
+
+            document.getElementById(
+                "cancelEditButton"
+            ).style.display =
+                "none";
+
+        }
+
+
+        /* =========================
+           HAPUS RIWAYAT
+        ========================= */
+
+        function hapusRiwayat(index) {
+
+            const riwayat =
+                ambilRiwayat();
+
+
+            const item =
+                riwayat[index];
+
+
+            if (!item) {
+                return;
+            }
+
+
+            const yakin =
+                confirm(
+                    `Hapus pengeluaran "${item.keterangan}" sebesar ${formatRupiah(item.nominal)}?`
+                );
+
+
+            if (!yakin) {
+                return;
+            }
+
+
+            riwayat.splice(
+                index,
+                1
+            );
+
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(
+                    riwayat
+                )
+            );
+
+
+            if (
+                indexSedangDiedit ===
+                index
+            ) {
+
+                indexSedangDiedit =
+                    null;
+
+                resetModeEdit();
+
+                resetForm();
+
+            }
+
+
+            tampilkanRiwayat();
+
+        }
+
+
+        /* =========================
+           HITUNG TOTAL
+        ========================= */
+
+        function hitungTotalPengeluaran() {
+
+            const riwayat =
+                ambilRiwayat();
+
+
+            const total =
+                riwayat.reduce(
+                    (
+                        jumlah,
+                        item
+                    ) => {
+
+                        return jumlah +
+                            (
+                                Number(
+                                    item.nominal
+                                ) || 0
+                            );
+
+                    },
+                    0
+                );
+
+
+            document.getElementById(
+                "totalPengeluaran"
+            ).textContent =
+                formatRupiah(
+                    total
+                );
+
+
+            return total;
+
+        }
+
+
+        /* =========================
+           FORMAT TANGGAL
+        ========================= */
+
+        function formatTanggal(tanggal) {
+
+            if (!tanggal) {
+                return "-";
+            }
+
+
+            const date =
+                new Date(
+                    tanggal +
+                    "T00:00:00"
+                );
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return tanggal;
+
+            }
+
+
+            return date.toLocaleDateString(
+                "id-ID",
+                {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        /* =========================
+           TAMPILKAN RIWAYAT
+        ========================= */
+
+        function tampilkanRiwayat() {
+
+            const container =
+                document.getElementById(
+                    "historyContainer"
+                );
+
+
+            const riwayat =
+                ambilRiwayat();
+
+
+            hitungTotalPengeluaran();
+
+
+            if (!riwayat.length) {
+
+                container.innerHTML = `
+
+                    <div class="history-empty">
+
+                        Belum ada pengeluaran
+                        yang disimpan.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            let html = `
+
+                <div class="history-table-wrapper">
+
+                    <table class="history-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Tanggal
+                                </th>
+
+                                <th>
+                                    Keterangan
+                                </th>
+
+                                <th>
+                                    Kategori
+                                </th>
+
+                                <th>
+                                    Nominal
+                                </th>
+
+                                <th>
+                                    Catatan
+                                </th>
+
+                                <th>
+                                    Aksi
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+            `;
+
+
+            riwayat.forEach(
+                (
+                    item,
+                    index
+                ) => {
+
+                    html += `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHTML(
+                                    formatTanggal(
+                                        item.tanggal
+                                    )
+                                )}
+                            </td>
+
+                            <td>
+
+                                <strong>
+                                    ${escapeHTML(
+                                        item.keterangan ||
+                                        "-"
+                                    )}
+                                </strong>
+
+                            </td>
+
+                            <td>
+
+                                <span
+                                    class="category-badge"
+                                >
+                                    ${escapeHTML(
+                                        item.kategori ||
+                                        "Lainnya"
+                                    )}
+                                </span>
+
+                            </td>
+
+                            <td class="nominal">
+
+                                ${formatRupiah(
+                                    item.nominal
+                                )}
+
+                            </td>
+
+                            <td>
+
+                                ${escapeHTML(
+                                    item.catatan ||
+                                    "-"
+                                )}
+
+                            </td>
+
+                            <td>
+
+                                <div
+                                    class="history-actions"
+                                >
+
+                                    <button
+                                        type="button"
+                                        class="history-edit"
+                                        onclick="editRiwayat(${index})"
+                                    >
+                                        Edit
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="history-delete"
+                                        onclick="hapusRiwayat(${index})"
+                                    >
+                                        Hapus
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            );
+
+
+            html += `
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            `;
+
+
+            container.innerHTML =
+                html;
+
+        }
+
+
+        /* =========================
+           LIHAT DETAIL
+        ========================= */
+
+        function lihatDetail(index) {
+
+            const riwayat =
+                ambilRiwayat();
+
+
+            const item =
+                riwayat[index];
+
+
+            if (!item) {
+                return;
+            }
+
+
+            document.getElementById(
+                "detailContent"
+            ).innerHTML = `
+
+                <div class="detail-section">
+
+                    <h3>
+                        Informasi Pengeluaran
+                    </h3>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Tanggal
+                        </span>
+
+                        <strong>
+                            ${escapeHTML(
+                                formatTanggal(
+                                    item.tanggal
+                                )
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Keterangan
+                        </span>
+
+                        <strong>
+                            ${escapeHTML(
+                                item.keterangan
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Kategori
+                        </span>
+
+                        <strong>
+                            ${escapeHTML(
+                                item.kategori ||
+                                "-"
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Nominal
+                        </span>
+
+                        <strong>
+                            ${formatRupiah(
+                                item.nominal
+                            )}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Catatan
+                        </span>
+
+                        <strong>
+                            ${escapeHTML(
+                                item.catatan ||
+                                "-"
+                            )}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            document.getElementById(
+                "detailModal"
+            ).style.display =
+                "flex";
+
+        }
+
+
+        /* =========================
+           TUTUP DETAIL
+        ========================= */
+
+        function tutupDetail() {
+
+            document.getElementById(
+                "detailModal"
+            ).style.display =
+                "none";
+
+        }
+
+
+        /* =========================
+           KLIK DI LUAR MODAL
+        ========================= */
+
+        document
+            .getElementById(
+                "detailModal"
+            )
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target === this
+                    ) {
+
+                        tutupDetail();
+
+                    }
+
+                }
+            );
+
+
+        /* =========================
+           LOAD
+        ========================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                setTanggalHariIni();
+
+                tampilkanRiwayat();
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
+```

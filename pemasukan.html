@@ -1,0 +1,5304 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Pemasukan - Syndeisy Accounting System
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                sans-serif;
+
+            background: #fff9f7;
+
+            color: #333;
+
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 240px;
+            height: 100vh;
+
+            background: #570909;
+
+            color: white;
+
+            padding: 30px 20px;
+
+        }
+
+
+        .logo {
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .system-name {
+
+            font-size: 12px;
+
+            opacity: 0.75;
+
+            margin-bottom: 40px;
+
+        }
+
+
+        .menu {
+
+            list-style: none;
+
+        }
+
+
+        .menu li {
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .menu a {
+
+            display: block;
+
+            padding: 12px 15px;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+
+        }
+
+
+        .menu a:hover,
+        .menu a.active {
+
+            background:
+                rgba(255,255,255,0.15);
+
+        }
+
+
+        .logout {
+
+            position: absolute;
+
+            bottom: 25px;
+
+            left: 20px;
+
+            right: 20px;
+
+        }
+
+
+        .logout a {
+
+            display: block;
+
+            padding: 11px;
+
+            text-align: center;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.4);
+
+            border-radius: 10px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+        }
+
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+
+            margin-left: 240px;
+
+            padding: 40px;
+
+        }
+
+
+        .header {
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .header h1 {
+
+            color: #570909;
+
+            font-size: 30px;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .header p {
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+
+
+        /* =========================
+           TABS
+        ========================= */
+
+        .tabs {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-bottom: 25px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .tab-btn {
+
+            border:
+                1px solid
+                #eadbd7;
+
+            background: white;
+
+            color: #570909;
+
+            padding:
+                12px 20px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+        }
+
+
+        .tab-btn:hover {
+
+            background: #fff4f1;
+
+        }
+
+
+        .tab-btn.active {
+
+            background: #570909;
+
+            color: white;
+
+            border-color: #570909;
+
+        }
+
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+
+            display: none;
+
+        }
+
+
+        .section.active {
+
+            display: block;
+
+        }
+
+
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 18px;
+
+            border:
+                1px solid
+                #eadbd7;
+
+            box-shadow:
+                0 8px 20px
+                rgba(87,9,9,0.05);
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .card h2,
+        .card h3 {
+
+            color: #570909;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .card h3 {
+
+            font-size: 19px;
+
+        }
+
+
+        .description {
+
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .form-group.full {
+
+            grid-column:
+                1 / -1;
+
+        }
+
+
+        label {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border:
+                1px solid
+                #ddd;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            background: white;
+
+            color: #333;
+
+            outline: none;
+
+        }
+
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #570909;
+
+        }
+
+
+        textarea {
+
+            min-height: 90px;
+
+            resize: vertical;
+
+        }
+
+
+        .hint {
+
+            margin-top: 6px;
+
+            color: #999;
+
+            font-size: 11px;
+
+        }
+
+
+        .hidden {
+
+            display: none !important;
+
+        }
+
+
+
+        /* =========================
+           INFO PRODUK
+        ========================= */
+
+        .product-info {
+
+            margin-top: 10px;
+
+            padding: 12px;
+
+            background: #fff9f7;
+
+            border:
+                1px solid
+                #eadbd7;
+
+            border-radius: 9px;
+
+            color: #777;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .product-info strong {
+
+            color: #570909;
+
+        }
+
+
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        .summary-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+
+        }
+
+
+        .summary-box {
+
+            margin-top: 22px;
+
+            padding-top: 22px;
+
+            border-top:
+                1px solid
+                #f0e5e2;
+
+        }
+
+
+        .summary-item {
+
+            background: #fff9f7;
+
+            border:
+                1px solid
+                #f0e5e2;
+
+            border-radius: 10px;
+
+            padding: 15px;
+
+        }
+
+
+        .summary-item span {
+
+            display: block;
+
+            color: #777;
+
+            font-size: 12px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .summary-item strong {
+
+            display: block;
+
+            color: #570909;
+
+            font-size: 16px;
+
+        }
+
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .button-row {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 22px;
+
+        }
+
+
+        button {
+
+            font-family:
+                Arial,
+                sans-serif;
+
+        }
+
+
+        .btn-primary {
+
+            border: none;
+
+            background: #570909;
+
+            color: white;
+
+            padding:
+                11px 18px;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .btn-primary:hover {
+
+            background: #6d1010;
+
+        }
+
+
+        .btn-secondary {
+
+            border:
+                1px solid
+                #ddd;
+
+            background: white;
+
+            color: #555;
+
+            padding:
+                11px 18px;
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+        }
+
+
+        .btn-secondary:hover {
+
+            background: #f8f8f8;
+
+        }
+
+
+        .btn-danger {
+
+            border: none;
+
+            background: #a94442;
+
+            color: white;
+
+            padding:
+                8px 11px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 11px;
+
+        }
+
+
+        .btn-edit {
+
+            border: none;
+
+            background: #eee;
+
+            color: #333;
+
+            padding:
+                8px 11px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 11px;
+
+        }
+
+
+        .btn-small {
+
+            border: none;
+
+            background: #570909;
+
+            color: white;
+
+            padding:
+                8px 11px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 11px;
+
+        }
+
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 850px;
+
+        }
+
+
+        th {
+
+            background: #f7f1ef;
+
+            color: #570909;
+
+            font-size: 12px;
+
+            text-align: left;
+
+            padding: 12px 10px;
+
+            border-bottom:
+                1px solid
+                #eadbd7;
+
+        }
+
+
+        td {
+
+            padding: 12px 10px;
+
+            border-bottom:
+                1px solid
+                #f0e5e2;
+
+            font-size: 12px;
+
+            vertical-align: top;
+
+        }
+
+
+        tr:hover td {
+
+            background: #fffaf8;
+
+        }
+
+
+        .empty-state {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #999;
+
+            font-size: 13px;
+
+        }
+
+
+
+        /* =========================
+           FILTER
+        ========================= */
+
+        .filter-row {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        /* =========================
+           ALERT
+        ========================= */
+
+        .alert-info {
+
+            background: #fff9f7;
+
+            border:
+                1px solid
+                #eadbd7;
+
+            border-radius: 10px;
+
+            padding: 14px;
+
+            color: #777;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        /* =========================
+           TAG STATUS
+        ========================= */
+
+        .status {
+
+            display: inline-block;
+
+            padding:
+                5px 9px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+        }
+
+
+        .status-lunas {
+
+            background: #e9f6ec;
+
+            color: #28743a;
+
+        }
+
+
+        .status-dp {
+
+            background: #fff3d8;
+
+            color: #856404;
+
+        }
+
+
+        .status-belum {
+
+            background: #fbeaea;
+
+            color: #a94442;
+
+        }
+
+
+        .status-menunggu {
+
+            background: #f1f1f1;
+
+            color: #666;
+
+        }
+
+
+        .status-proses {
+
+            background: #eee5ff;
+
+            color: #6240a5;
+
+        }
+
+
+        .status-selesai {
+
+            background: #e9f6ec;
+
+            color: #28743a;
+
+        }
+
+
+
+        /* =========================
+           PIUTANG
+        ========================= */
+
+        .piutang-card {
+
+            border:
+                1px solid
+                #eadbd7;
+
+            border-radius: 12px;
+
+            padding: 18px;
+
+            margin-bottom: 15px;
+
+            background: white;
+
+        }
+
+
+        .piutang-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            gap: 15px;
+
+            align-items:
+                flex-start;
+
+            margin-bottom: 14px;
+
+        }
+
+
+        .piutang-title {
+
+            font-weight: 700;
+
+            color: #570909;
+
+            font-size: 15px;
+
+        }
+
+
+        .piutang-subtitle {
+
+            color: #777;
+
+            font-size: 12px;
+
+            margin-top: 4px;
+
+        }
+
+
+        .piutang-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+
+            margin-bottom: 14px;
+
+        }
+
+
+        .piutang-item {
+
+            background: #fff9f7;
+
+            border-radius: 9px;
+
+            padding: 11px;
+
+        }
+
+
+        .piutang-item span {
+
+            display: block;
+
+            font-size: 11px;
+
+            color: #777;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .piutang-item strong {
+
+            color: #570909;
+
+            font-size: 14px;
+
+        }
+
+
+        .pelunasan-form {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr auto;
+
+            gap: 10px;
+
+            align-items: end;
+
+            padding-top: 14px;
+
+            border-top:
+                1px solid
+                #f0e5e2;
+
+        }
+
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+            }
+
+
+            .logout {
+
+                position: static;
+
+                margin-top: 20px;
+
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+                padding: 25px;
+
+            }
+
+
+            .form-grid,
+            .summary-grid,
+            .filter-row,
+            .piutang-grid,
+            .pelunasan-form {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .main {
+
+                padding: 18px;
+
+            }
+
+
+            .button-row {
+
+                flex-direction: column;
+
+            }
+
+
+            .button-row button {
+
+                width: 100%;
+
+            }
+
+
+            .tabs {
+
+                flex-direction: column;
+
+            }
+
+
+            .tab-btn {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            SYNDEISY
+        </div>
+
+        <div class="system-name">
+            Accounting System
+        </div>
+
+
+        <ul class="menu">
+
+            <li>
+
+                <a href="dashboard.html">
+                    🍒 Dashboard
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="hpp.html">
+                    🌻 HPPenjualan
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a
+                    href="pemasukan.html"
+                    class="active"
+                >
+                    🌷 Pemasukan
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="pengeluaran.html">
+                    🌼 Pengeluaran
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="laporan.html">
+                    📊 Laporan Laba Rugi
+                </a>
+
+            </li>
+
+        </ul>
+
+
+        <div class="logout">
+
+            <a href="index.html">
+                Keluar
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="main">
+
+
+        <div class="header">
+
+            <h1>
+                Pemasukan
+            </h1>
+
+        </div>
+
+
+
+        <!-- =========================
+             TABS
+        ========================= -->
+
+        <div class="tabs">
+
+
+            <button
+                type="button"
+                class="tab-btn active"
+                onclick="
+                    gantiSection(
+                        'biasa',
+                        this
+                    )
+                "
+            >
+                🛍️ Penjualan Produk
+            </button>
+
+
+            <button
+                type="button"
+                class="tab-btn"
+                onclick="
+                    gantiSection(
+                        'po',
+                        this
+                    )
+                "
+            >
+                📦 Pre-Order
+            </button>
+
+
+            <button
+                type="button"
+                class="tab-btn"
+                onclick="
+                    gantiSection(
+                        'pelunasan',
+                        this
+                    )
+                "
+            >
+                💰 Pelunasan
+            </button>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             PENJUALAN PRODUK
+        ================================================== -->
+
+        <section
+            id="section-biasa"
+            class="section active"
+        >
+
+
+            <div class="card">
+
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="tanggalBiasa">
+                            Tanggal Penjualan
+                        </label>
+
+                        <input
+                            type="date"
+                            id="tanggalBiasa"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="produkBiasa">
+                            Produk
+                        </label>
+
+                        <select
+                            id="produkBiasa"
+                            onchange="
+                                pilihProdukBiasa()
+                            "
+                        >
+
+                            <option value="">
+                                -- Pilih Produk dari HPP --
+                            </option>
+
+                        </select>
+
+
+                        <div
+                            id="infoProdukBiasa"
+                            class="product-info hidden"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="qtyBiasa">
+                            Jumlah Terjual
+                        </label>
+
+                        <input
+                            type="number"
+                            id="qtyBiasa"
+                            min="1"
+                            value="1"
+                            oninput="
+                                hitungPenjualanBiasa()
+                            "
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="kanalBiasa">
+                            Kanal Penjualan
+                        </label>
+
+                        <select
+                            id="kanalBiasa"
+                            onchange="
+                                pilihKanalBiasa()
+                            "
+                        >
+
+                            <option value="offline">
+                                Harga Normal / Offline
+                            </option>
+
+                            <option value="shopee">
+                                Shopee
+                            </option>
+
+                            <option value="tokopedia">
+                                Tokopedia
+                            </option>
+
+                            <option value="tiktok">
+                                TikTok Shop
+                            </option>
+
+                            <option value="lainnya">
+                                Lainnya
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="hargaBiasa">
+                            Harga Jual per Unit
+                        </label>
+
+                        <input
+                            type="number"
+                            id="hargaBiasa"
+                            min="0"
+                            oninput="
+                                hitungPenjualanBiasa()
+                            "
+                        >
+
+                    </div>
+
+
+                    <div
+                        class="form-group hidden"
+                        id="adminBiasaGroup"
+                    >
+
+                        <label for="adminBiasa">
+                            Biaya Admin Marketplace (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="adminBiasa"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                            oninput="
+                                hitungPenjualanBiasa()
+                            "
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="summary-box">
+
+                    <div class="summary-grid">
+
+
+                        <div class="summary-item">
+
+                            <span>
+                                Total Penjualan Kotor
+                            </span>
+
+                            <strong
+                                id="totalKotorBiasa"
+                            >
+                                Rp0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>
+                                Biaya Admin
+                            </span>
+
+                            <strong
+                                id="totalAdminBiasa"
+                            >
+                                Rp0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>
+                                Pendapatan Bersih
+                            </span>
+
+                            <strong
+                                id="totalBersihBiasa"
+                            >
+                                Rp0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>
+                                HPP Penjualan
+                            </span>
+
+                            <strong
+                                id="hppPenjualanBiasa"
+                            >
+                                Rp0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>
+                                Laba Kotor
+                            </span>
+
+                            <strong
+                                id="labaKotorBiasa"
+                            >
+                                Rp0
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="button-row">
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        id="buttonSimpanBiasa"
+                        onclick="
+                            simpanPenjualanBiasa()
+                        "
+                    >
+                        💾 Simpan Penjualan
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        onclick="
+                            resetFormBiasa()
+                        "
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- RIWAYAT PENJUALAN -->
+
+            <div class="card">
+
+                <h3>
+                    Riwayat Penjualan Produk
+                </h3>
+
+
+                <div class="filter-row">
+
+                    <div>
+
+                        <label for="filterBulanBiasa">
+                            Filter Bulan
+                        </label>
+
+                        <input
+                            type="month"
+                            id="filterBulanBiasa"
+                            onchange="
+                                renderSemua()
+                            "
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <label for="filterKanalBiasa">
+                            Filter Kanal
+                        </label>
+
+                        <select
+                            id="filterKanalBiasa"
+                            onchange="
+                                renderSemua()
+                            "
+                        >
+
+                            <option value="">
+                                Semua Kanal
+                            </option>
+
+                            <option value="offline">
+                                Harga Normal / Offline
+                            </option>
+
+                            <option value="shopee">
+                                Shopee
+                            </option>
+
+                            <option value="tokopedia">
+                                Tokopedia
+                            </option>
+
+                            <option value="tiktok">
+                                TikTok Shop
+                            </option>
+
+                            <option value="lainnya">
+                                Lainnya
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Tanggal
+                                </th>
+
+                                <th>
+                                    Produk
+                                </th>
+
+                                <th>
+                                    Qty
+                                </th>
+
+                                <th>
+                                    Kanal
+                                </th>
+
+                                <th>
+                                    Penjualan
+                                </th>
+
+                                <th>
+                                    Admin
+                                </th>
+
+                                <th>
+                                    Bersih
+                                </th>
+
+                                <th>
+                                    HPP
+                                </th>
+
+                                <th>
+                                    Laba
+                                </th>
+
+                                <th>
+                                    Aksi
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="riwayatBiasa"
+                        ></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             PRE ORDER
+        ================================================== -->
+
+        <section
+            id="section-po"
+            class="section"
+        >
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="tanggalPO">
+                            Tanggal Pesanan
+                        </label>
+
+                        <input
+                            type="date"
+                            id="tanggalPO"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="pelangganPO">
+                            Nama Pelanggan
+                        </label>
+
+                        <input
+                            type="text"
+                            id="pelangganPO"
+                            placeholder="Nama pelanggan"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="produkPO">
+                            Produk
+                        </label>
+
+                       <input
+    type="text"
+    id="produkPO"
+    placeholder="Masukkan nama barang"
+    oninput="hitungPO()"
+>
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="qtyPO">
+                            Jumlah
+                        </label>
+
+                        <input
+                            type="number"
+                            id="qtyPO"
+                            min="1"
+                            value="1"
+                            oninput="
+                                hitungPO()
+                            "
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="hargaUnitPO">
+                            Harga Jual per Unit
+                        </label>
+
+                        <input
+                            type="number"
+                            id="hargaUnitPO"
+                            min="0"
+                            oninput="
+                                hitungPO()
+                            "
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="nilaiDPPO">
+                            DP / Pembayaran Awal
+                        </label>
+
+                        <input
+                            type="number"
+                            id="nilaiDPPO"
+                            min="0"
+                            value="0"
+                            oninput="
+                                hitungPO()
+                            "
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="deadlinePO">
+                            Deadline
+                        </label>
+
+                        <input
+                            type="date"
+                            id="deadlinePO"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="statusKerjaPO">
+                            Status Produksi
+                        </label>
+
+                        <select
+                            id="statusKerjaPO"
+                        >
+
+                            <option value="menunggu">
+                                Menunggu
+                            </option>
+
+                            <option value="proses">
+                                Proses
+                            </option>
+
+                            <option value="selesai">
+                                Selesai
+                            </option>
+
+                            <option value="diserahkan">
+                                Diserahkan
+                            </option>
+
+                            <option value="dibatalkan">
+                                Dibatalkan
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="statusBayarPO">
+                            Status Pembayaran
+                        </label>
+
+                        <select
+                            id="statusBayarPO"
+                            onchange="
+                                hitungPO()
+                            "
+                        >
+
+                            <option value="belum">
+                                Belum Bayar
+                            </option>
+
+                            <option value="dp">
+                                DP
+                            </option>
+
+                            <option value="lunas">
+                                Lunas
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label for="catatanPO">
+                            Catatan
+                        </label>
+
+                        <textarea
+                            id="catatanPO"
+                            placeholder="Catatan tambahan PO"
+                        ></textarea>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="summary-box">
+
+                    <div class="summary-grid">
+
+
+                        <div class="summary-item">
+
+                            <span>
+                                Total Nilai PO
+                            </span>
+
+                            <strong
+                                id="totalPO"
+                            >
+                                Rp0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>
+                                DP / Total Diterima
+                            </span>
+
+                            <strong
+                                id="dpPO"
+                            >
+                                Rp0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-item">
+
+                            <span>
+                                Sisa Pembayaran
+                            </span>
+
+                            <strong
+                                id="sisaPO"
+                            >
+                                Rp0
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="button-row">
+
+                    <button
+                        type="button"
+                        class="btn-primary"
+                        id="buttonSimpanPO"
+                        onclick="
+                            simpanPO()
+                        "
+                    >
+                        💾 Simpan Pre-Order
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        onclick="
+                            resetFormPO()
+                        "
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- RIWAYAT PO -->
+
+            <div class="card">
+
+                <h3>
+                    Riwayat Pre-Order
+                </h3>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Tanggal
+                                </th>
+
+                                <th>
+                                    Pelanggan
+                                </th>
+
+                                <th>
+                                    Produk
+                                </th>
+
+                                <th>
+                                    Qty
+                                </th>
+
+                                <th>
+                                    Total PO
+                                </th>
+
+                                <th>
+                                    Diterima
+                                </th>
+
+                                <th>
+                                    Sisa
+                                </th>
+
+                                <th>
+                                    Deadline
+                                </th>
+
+                                <th>
+                                    Produksi
+                                </th>
+
+                                <th>
+                                    Pembayaran
+                                </th>
+
+                                <th>
+                                    Aksi
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="riwayatPO"
+                        ></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             PELUNASAN
+        ================================================== -->
+
+        <section
+            id="section-pelunasan"
+            class="section"
+        >
+
+
+            <div class="card">
+
+                <h3>
+                    💰 Pelunasan & Sisa Pembayaran
+                </h3>
+
+
+                <div class="summary-grid">
+
+
+                    <div class="summary-item">
+
+                        <span>
+                            Jumlah Belum Lunas
+                        </span>
+
+                        <strong
+                            id="jumlahBelumLunas"
+                        >
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-item">
+
+                        <span>
+                            Total Sisa Pembayaran
+                        </span>
+
+                        <strong
+                            id="totalSisaPelunasan"
+                        >
+                            Rp0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-item">
+
+                        <span>
+                            Jumlah Lunas
+                        </span>
+
+                        <strong
+                            id="jumlahLunas"
+                        >
+                            0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <h3>
+                    Daftar Tagihan
+                </h3>
+
+
+                <div
+                    id="daftarPelunasan"
+                ></div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             RINGKASAN
+        ================================================== -->
+
+        <div class="card">
+
+            <h3>
+                📊 Ringkasan Pemasukan
+            </h3>
+
+
+            <div class="summary-grid">
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Total Penjualan Kotor
+                    </span>
+
+                    <strong
+                        id="ringkasanKotor"
+                    >
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Total Biaya Admin
+                    </span>
+
+                    <strong
+                        id="ringkasanAdmin"
+                    >
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Total Pendapatan Bersih
+                    </span>
+
+                    <strong
+                        id="ringkasanBersih"
+                    >
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Total HPP Penjualan
+                    </span>
+
+                    <strong
+                        id="ringkasanHPP"
+                    >
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Total Laba
+                    </span>
+
+                    <strong
+                        id="ringkasanLaba"
+                    >
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <span>
+                        Total Sisa Pembayaran PO
+                    </span>
+
+                    <strong
+                        id="ringkasanDP"
+                    >
+                        Rp0
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+
+    <script>
+
+
+        /* =====================================================
+           LOCAL STORAGE KEY
+        ===================================================== */
+
+        const KEY_HPP =
+            "syndeisy_hpp_history";
+
+
+        const KEY_PENJUALAN =
+            "sistem_keuangan_penjualan";
+
+
+        const KEY_PO =
+            "sistem_keuangan_preorder";
+
+
+
+        let dataHPP = [];
+
+        let dataBiasa = [];
+
+        let dataPO = [];
+
+        let editBiasaId = null;
+
+        let editPOId = null;
+
+
+
+        /* =====================================================
+           FORMAT RUPIAH
+        ===================================================== */
+
+        function rupiah(angka) {
+
+            return "Rp" +
+                Math.round(
+                    Number(angka) || 0
+                ).toLocaleString("id-ID");
+
+        }
+
+
+
+        /* =====================================================
+           TANGGAL
+        ===================================================== */
+
+        function tanggalHariIni() {
+
+            const sekarang =
+                new Date();
+
+            const tahun =
+                sekarang.getFullYear();
+
+            const bulan =
+                String(
+                    sekarang.getMonth() + 1
+                ).padStart(2, "0");
+
+            const tanggal =
+                String(
+                    sekarang.getDate()
+                ).padStart(2, "0");
+
+            return (
+                tahun +
+                "-" +
+                bulan +
+                "-" +
+                tanggal
+            );
+
+        }
+
+
+
+        function formatTanggal(tanggal) {
+
+            if (!tanggal) {
+                return "-";
+            }
+
+            const bagian =
+                String(tanggal).split("-");
+
+            if (bagian.length !== 3) {
+                return tanggal;
+            }
+
+            return (
+                bagian[2] +
+                "/" +
+                bagian[1] +
+                "/" +
+                bagian[0]
+            );
+
+        }
+
+
+
+        /* =====================================================
+           ESCAPE HTML
+        ===================================================== */
+
+        function escapeHTML(value) {
+
+            return String(
+                value ?? ""
+            )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+        }
+
+
+
+        /* =====================================================
+           LOCAL STORAGE
+        ===================================================== */
+
+        function ambilArray(key) {
+
+            try {
+
+                const data =
+                    JSON.parse(
+                        localStorage.getItem(
+                            key
+                        ) || "[]"
+                    );
+
+                return Array.isArray(data)
+                    ? data
+                    : [];
+
+            } catch (error) {
+
+                console.error(
+                    "Gagal membaca:",
+                    key,
+                    error
+                );
+
+                return [];
+
+            }
+
+        }
+
+
+
+        function simpanArray(
+            key,
+            data
+        ) {
+
+            localStorage.setItem(
+                key,
+                JSON.stringify(data)
+            );
+
+        }
+
+
+
+        /* =====================================================
+           HPP
+        ===================================================== */
+
+        function ambilField(
+            item,
+            daftar,
+            nilaiDefault = ""
+        ) {
+
+            for (
+                const key of daftar
+            ) {
+
+                if (
+                    item &&
+                    item[key] !== undefined &&
+                    item[key] !== null &&
+                    item[key] !== ""
+                ) {
+
+                    return item[key];
+
+                }
+
+            }
+
+            return nilaiDefault;
+
+        }
+
+
+
+        function normalisasiHPP(item) {
+
+            const nama =
+                ambilField(
+                    item,
+                    [
+                        "namaProduk",
+                        "produk",
+                        "nama",
+                        "productName"
+                    ]
+                );
+
+
+            const hpp =
+                Number(
+                    ambilField(
+                        item,
+                        [
+                            "hppPerUnit",
+                            "hppUnit",
+                            "hpp",
+                            "totalHPP",
+                            "totalHpp"
+                        ],
+                        0
+                    )
+                );
+
+
+            const hargaNormal =
+                Number(
+                    ambilField(
+                        item,
+                        [
+                            "hargaNormal",
+                            "hargaJualNormal",
+                            "hargaJual",
+                            "hargaJualPerUnit"
+                        ],
+                        0
+                    )
+                );
+
+
+            const hargaShopee =
+                Number(
+                    ambilField(
+                        item,
+                        [
+                            "hargaShopee"
+                        ],
+                        hargaNormal
+                    )
+                );
+
+
+            const hargaTokopedia =
+                Number(
+                    ambilField(
+                        item,
+                        [
+                            "hargaTokopedia"
+                        ],
+                        hargaNormal
+                    )
+                );
+
+
+            const hargaTiktok =
+                Number(
+                    ambilField(
+                        item,
+                        [
+                            "hargaTiktok",
+                            "hargaTikTok",
+                            "hargaTikTokShop"
+                        ],
+                        hargaNormal
+                    )
+                );
+
+
+            return {
+
+                id:
+                    item.id ??
+                    item.ID ??
+                    nama,
+
+                nama,
+
+                hpp,
+
+                hargaNormal,
+
+                hargaShopee,
+
+                hargaTokopedia,
+
+                hargaTiktok
+
+            };
+
+        }
+
+
+
+        function ambilDataHPP() {
+
+            const data =
+                localStorage.getItem(
+                    KEY_HPP
+                );
+
+            if (!data) {
+                return [];
+            }
+
+            try {
+
+                const parsed =
+                    JSON.parse(data);
+
+                return Array.isArray(parsed)
+                    ? parsed
+                    : [];
+
+            } catch (error) {
+
+                console.error(
+                    "Data HPP tidak valid:",
+                    error
+                );
+
+                return [];
+
+            }
+
+        }
+
+
+
+        function loadDataHPP() {
+
+            dataHPP =
+                ambilDataHPP()
+                    .map(
+                        normalisasiHPP
+                    )
+                    .filter(
+                        item =>
+                            item.nama
+                    );
+
+
+            isiSelectProduk(
+                "produkBiasa"
+            );
+
+            isiSelectProduk(
+                "produkPO"
+            );
+
+        }
+
+
+
+        function isiSelectProduk(
+            idSelect
+        ) {
+
+            const select =
+                document.getElementById(
+                    idSelect
+                );
+
+            if (!select) {
+                return;
+            }
+
+
+            select.innerHTML = `
+                <option value="">
+                    -- Pilih Produk dari HPP --
+                </option>
+            `;
+
+
+            dataHPP.forEach(
+                function(item) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value =
+                        String(item.id);
+
+                    option.textContent =
+                        item.nama;
+
+                    select.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        function cariProdukHPP(id) {
+
+            return dataHPP.find(
+                item =>
+                    String(item.id) ===
+                    String(id)
+            );
+
+        }
+
+
+
+        /* =====================================================
+           TAB
+        ===================================================== */
+
+        function gantiSection(
+            nama,
+            tombol
+        ) {
+
+            document
+                .querySelectorAll(
+                    ".section"
+                )
+                .forEach(
+                    function(section) {
+
+                        section.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+            document
+                .querySelectorAll(
+                    ".tab-btn"
+                )
+                .forEach(
+                    function(button) {
+
+                        button.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+            const section =
+                document.getElementById(
+                    "section-" +
+                    nama
+                );
+
+
+            if (section) {
+
+                section.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            if (tombol) {
+
+                tombol.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            if (
+                nama === "pelunasan"
+            ) {
+
+                renderPelunasan();
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           PENJUALAN PRODUK
+        ===================================================== */
+
+        function pilihProdukBiasa() {
+
+            const id =
+                document.getElementById(
+                    "produkBiasa"
+                ).value;
+
+
+            const produk =
+                cariProdukHPP(id);
+
+
+            const info =
+                document.getElementById(
+                    "infoProdukBiasa"
+                );
+
+
+            if (!produk) {
+
+                info.classList.add(
+                    "hidden"
+                );
+
+                document.getElementById(
+                    "hargaBiasa"
+                ).value = "";
+
+                hitungPenjualanBiasa();
+
+                return;
+
+            }
+
+
+            info.classList.remove(
+                "hidden"
+            );
+
+
+            info.innerHTML = `
+                <strong>
+                    ${escapeHTML(
+                        produk.nama
+                    )}
+                </strong>
+                <br>
+                HPP per unit:
+                ${rupiah(
+                    produk.hpp
+                )}
+            `;
+
+
+            isiHargaBerdasarkanKanal();
+
+            hitungPenjualanBiasa();
+
+        }
+
+
+
+        function pilihKanalBiasa() {
+
+            const kanal =
+                document.getElementById(
+                    "kanalBiasa"
+                ).value;
+
+
+            const adminGroup =
+                document.getElementById(
+                    "adminBiasaGroup"
+                );
+
+
+            if (
+                kanal === "offline"
+            ) {
+
+                adminGroup.classList.add(
+                    "hidden"
+                );
+
+                document.getElementById(
+                    "adminBiasa"
+                ).value = 0;
+
+            } else {
+
+                adminGroup.classList.remove(
+                    "hidden"
+                );
+
+            }
+
+
+            isiHargaBerdasarkanKanal();
+
+            hitungPenjualanBiasa();
+
+        }
+
+
+
+        function isiHargaBerdasarkanKanal() {
+
+            const id =
+                document.getElementById(
+                    "produkBiasa"
+                ).value;
+
+
+            const produk =
+                cariProdukHPP(id);
+
+
+            if (!produk) {
+                return;
+            }
+
+
+            const kanal =
+                document.getElementById(
+                    "kanalBiasa"
+                ).value;
+
+
+            let harga =
+                produk.hargaNormal;
+
+
+            if (
+                kanal === "shopee"
+            ) {
+
+                harga =
+                    produk.hargaShopee;
+
+            }
+
+
+            if (
+                kanal === "tokopedia"
+            ) {
+
+                harga =
+                    produk.hargaTokopedia;
+
+            }
+
+
+            if (
+                kanal === "tiktok"
+            ) {
+
+                harga =
+                    produk.hargaTiktok;
+
+            }
+
+
+            document.getElementById(
+                "hargaBiasa"
+            ).value =
+                harga || "";
+
+        }
+
+
+
+        function hitungPenjualanBiasa() {
+
+            const qty =
+                Number(
+                    document.getElementById(
+                        "qtyBiasa"
+                    ).value
+                ) || 0;
+
+
+            const harga =
+                Number(
+                    document.getElementById(
+                        "hargaBiasa"
+                    ).value
+                ) || 0;
+
+
+            const adminPersen =
+                Number(
+                    document.getElementById(
+                        "adminBiasa"
+                    ).value
+                ) || 0;
+
+
+            const produk =
+                cariProdukHPP(
+                    document.getElementById(
+                        "produkBiasa"
+                    ).value
+                );
+
+
+            const kotor =
+                qty * harga;
+
+
+            const admin =
+                kotor *
+                adminPersen /
+                100;
+
+
+            const bersih =
+                kotor -
+                admin;
+
+
+            const hppPenjualan =
+                qty *
+                Number(
+                    produk?.hpp || 0
+                );
+
+
+            const laba =
+                bersih -
+                hppPenjualan;
+
+
+            document.getElementById(
+                "totalKotorBiasa"
+            ).textContent =
+                rupiah(kotor);
+
+
+            document.getElementById(
+                "totalAdminBiasa"
+            ).textContent =
+                rupiah(admin);
+
+
+            document.getElementById(
+                "totalBersihBiasa"
+            ).textContent =
+                rupiah(bersih);
+
+
+            document.getElementById(
+                "hppPenjualanBiasa"
+            ).textContent =
+                rupiah(
+                    hppPenjualan
+                );
+
+
+            document.getElementById(
+                "labaKotorBiasa"
+            ).textContent =
+                rupiah(laba);
+
+        }
+
+
+
+        function simpanPenjualanBiasa() {
+
+            const tanggal =
+                document.getElementById(
+                    "tanggalBiasa"
+                ).value;
+
+
+            const produk =
+                cariProdukHPP(
+                    document.getElementById(
+                        "produkBiasa"
+                    ).value
+                );
+
+
+            const qty =
+                Number(
+                    document.getElementById(
+                        "qtyBiasa"
+                    ).value
+                ) || 0;
+
+
+            const harga =
+                Number(
+                    document.getElementById(
+                        "hargaBiasa"
+                    ).value
+                ) || 0;
+
+
+            if (
+                !tanggal ||
+                !produk
+            ) {
+
+                alert(
+                    "Tanggal dan produk wajib diisi."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                qty <= 0 ||
+                harga <= 0
+            ) {
+
+                alert(
+                    "Jumlah dan harga jual harus lebih dari 0."
+                );
+
+                return;
+
+            }
+
+
+            const kanal =
+                document.getElementById(
+                    "kanalBiasa"
+                ).value;
+
+
+            const adminPersen =
+                kanal === "offline"
+                    ? 0
+                    : Number(
+                        document.getElementById(
+                            "adminBiasa"
+                        ).value
+                    ) || 0;
+
+
+            const kotor =
+                qty * harga;
+
+
+            const admin =
+                kotor *
+                adminPersen /
+                100;
+
+
+            const bersih =
+                kotor -
+                admin;
+
+
+            const hppPenjualan =
+                qty *
+                Number(
+                    produk.hpp || 0
+                );
+
+
+            const laba =
+                bersih -
+                hppPenjualan;
+
+
+            const transaksi = {
+
+                id:
+                    editBiasaId ||
+                    Date.now(),
+
+                tanggal,
+
+                produkId:
+                    produk.id,
+
+                produk:
+                    produk.nama,
+
+                qty,
+
+                kanal,
+
+                harga,
+
+                adminPersen,
+
+                kotor,
+
+                admin,
+
+                bersih,
+
+                hppUnit:
+                    produk.hpp,
+
+                hppPenjualan,
+
+                laba,
+
+                dibuat:
+                    new Date()
+                        .toISOString()
+
+            };
+
+
+            if (
+                editBiasaId
+            ) {
+
+                const index =
+                    dataBiasa.findIndex(
+                        item =>
+                            item.id ===
+                            editBiasaId
+                    );
+
+
+                if (
+                    index !== -1
+                ) {
+
+                    dataBiasa[index] =
+                        transaksi;
+
+                }
+
+
+                editBiasaId =
+                    null;
+
+            } else {
+
+                dataBiasa.push(
+                    transaksi
+                );
+
+            }
+
+
+            simpanArray(
+                KEY_PENJUALAN,
+                dataBiasa
+            );
+
+
+            alert(
+                "Penjualan berhasil disimpan."
+            );
+
+
+            resetFormBiasa();
+
+            renderSemua();
+
+        }
+
+
+
+        function editPenjualanBiasa(
+            id
+        ) {
+
+            const item =
+                dataBiasa.find(
+                    x =>
+                        x.id === id
+                );
+
+
+            if (!item) {
+                return;
+            }
+
+
+            editBiasaId =
+                id;
+
+
+            document.getElementById(
+                "tanggalBiasa"
+            ).value =
+                item.tanggal || "";
+
+
+            document.getElementById(
+                "produkBiasa"
+            ).value =
+                String(
+                    item.produkId || ""
+                );
+
+
+            document.getElementById(
+                "qtyBiasa"
+            ).value =
+                item.qty || 1;
+
+
+            document.getElementById(
+                "kanalBiasa"
+            ).value =
+                item.kanal ||
+                "offline";
+
+
+            pilihKanalBiasa();
+
+
+            document.getElementById(
+                "hargaBiasa"
+            ).value =
+                item.harga || "";
+
+
+            document.getElementById(
+                "adminBiasa"
+            ).value =
+                item.adminPersen || 0;
+
+
+            pilihProdukBiasa();
+
+
+            document.getElementById(
+                "buttonSimpanBiasa"
+            ).textContent =
+                "💾 Simpan Perubahan";
+
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+        }
+
+
+
+        function hapusPenjualanBiasa(
+            id
+        ) {
+
+            if (
+                !confirm(
+                    "Hapus transaksi penjualan ini?"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            dataBiasa =
+                dataBiasa.filter(
+                    item =>
+                        item.id !== id
+                );
+
+
+            simpanArray(
+                KEY_PENJUALAN,
+                dataBiasa
+            );
+
+
+            renderSemua();
+
+        }
+
+
+
+        function kanalLabel(
+            kanal
+        ) {
+
+            const labels = {
+
+                offline:
+                    "Normal / Offline",
+
+                shopee:
+                    "Shopee",
+
+                tokopedia:
+                    "Tokopedia",
+
+                tiktok:
+                    "TikTok Shop",
+
+                lainnya:
+                    "Lainnya"
+
+            };
+
+
+            return (
+                labels[kanal] ||
+                kanal ||
+                "-"
+            );
+
+        }
+
+
+
+        function resetFormBiasa() {
+
+            editBiasaId =
+                null;
+
+
+            document.getElementById(
+                "tanggalBiasa"
+            ).value =
+                tanggalHariIni();
+
+
+            document.getElementById(
+                "produkBiasa"
+            ).value =
+                "";
+
+
+            document.getElementById(
+                "qtyBiasa"
+            ).value =
+                1;
+
+
+            document.getElementById(
+                "kanalBiasa"
+            ).value =
+                "offline";
+
+
+            document.getElementById(
+                "hargaBiasa"
+            ).value =
+                "";
+
+
+            document.getElementById(
+                "adminBiasa"
+            ).value =
+                0;
+
+
+            document.getElementById(
+                "adminBiasaGroup"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "infoProdukBiasa"
+            ).classList.add(
+                "hidden"
+            );
+
+
+            document.getElementById(
+                "buttonSimpanBiasa"
+            ).textContent =
+                "💾 Simpan Penjualan";
+
+
+            hitungPenjualanBiasa();
+
+        }
+
+
+
+        /* =====================================================
+           PRE ORDER
+        ===================================================== */
+
+
+        function hitungPO() {
+
+            const qty =
+                Number(
+                    document.getElementById(
+                        "qtyPO"
+                    ).value
+                ) || 0;
+
+
+            const harga =
+                Number(
+                    document.getElementById(
+                        "hargaUnitPO"
+                    ).value
+                ) || 0;
+
+
+            const total =
+                qty *
+                harga;
+
+
+            const statusBayar =
+                document.getElementById(
+                    "statusBayarPO"
+                ).value;
+
+
+            let dpInput =
+                Number(
+                    document.getElementById(
+                        "nilaiDPPO"
+                    ).value
+                ) || 0;
+
+
+            if (
+                statusBayar === "lunas"
+            ) {
+
+                dpInput =
+                    total;
+
+            }
+
+
+            if (
+                statusBayar === "belum"
+            ) {
+
+                dpInput =
+                    0;
+
+            }
+
+
+            const dp =
+                Math.min(
+                    Math.max(
+                        dpInput,
+                        0
+                    ),
+                    total
+                );
+
+
+            const sisa =
+                total -
+                dp;
+
+
+            document.getElementById(
+                "totalPO"
+            ).textContent =
+                rupiah(total);
+
+
+            document.getElementById(
+                "dpPO"
+            ).textContent =
+                rupiah(dp);
+
+
+            document.getElementById(
+                "sisaPO"
+            ).textContent =
+                rupiah(sisa);
+
+        }
+
+
+
+        function simpanPO() {
+
+            const tanggal =
+                document.getElementById(
+                    "tanggalPO"
+                ).value;
+
+
+            const pelanggan =
+                document.getElementById(
+                    "pelangganPO"
+                ).value.trim();
+
+
+            const namaProduk =
+    document.getElementById(
+        "produkPO"
+    ).value.trim();
+
+
+            const qty =
+                Number(
+                    document.getElementById(
+                        "qtyPO"
+                    ).value
+                ) || 0;
+
+
+            const harga =
+                Number(
+                    document.getElementById(
+                        "hargaUnitPO"
+                    ).value
+                ) || 0;
+
+
+           if (
+    !tanggal ||
+    !pelanggan ||
+    !namaProduk ||
+    qty <= 0 ||
+    harga <= 0
+) {
+
+    alert(
+        "Tanggal, pelanggan, nama barang, jumlah, dan harga wajib diisi."
+    );
+
+    return;
+
+}
+
+
+            const total =
+                qty *
+                harga;
+
+
+            const statusBayar =
+                document.getElementById(
+                    "statusBayarPO"
+                ).value;
+
+
+            let dp =
+                Number(
+                    document.getElementById(
+                        "nilaiDPPO"
+                    ).value
+                ) || 0;
+
+
+            if (
+                statusBayar === "lunas"
+            ) {
+
+                dp =
+                    total;
+
+            }
+
+
+            if (
+                statusBayar === "belum"
+            ) {
+
+                dp =
+                    0;
+
+            }
+
+
+            dp =
+                Math.min(
+                    Math.max(
+                        dp,
+                        0
+                    ),
+                    total
+                );
+
+
+            const sisa =
+                total -
+                dp;
+
+
+            const statusBayarFinal =
+                dp >= total
+                    ? "lunas"
+                    : dp > 0
+                        ? "dp"
+                        : "belum";
+
+
+            let pembayaran = [];
+
+
+            if (
+                editPOId
+            ) {
+
+                const dataLama =
+                    dataPO.find(
+                        x =>
+                            x.id ===
+                            editPOId
+                    );
+
+
+                pembayaran =
+                    Array.isArray(
+                        dataLama?.pembayaran
+                    )
+                        ? dataLama.pembayaran
+                        : [];
+
+            }
+
+
+            if (
+                !editPOId &&
+                dp > 0
+            ) {
+
+                pembayaran.push({
+
+                    id:
+                        Date.now(),
+
+                    tanggal,
+
+                    nominal:
+                        dp,
+
+                    keterangan:
+                        "DP / pembayaran awal"
+
+                });
+
+            }
+
+
+            const item = {
+
+    id:
+        editPOId ||
+        Date.now(),
+
+    tanggal,
+
+    pelanggan,
+
+    produk:
+        namaProduk,
+
+    qty,
+
+    hargaUnit:
+        harga,
+
+    total,
+
+    dp,
+
+    totalDiterima:
+        dp,
+
+    sisa,
+
+    deadline:
+        document.getElementById(
+            "deadlinePO"
+        ).value,
+
+    statusBayar:
+        statusBayarFinal,
+
+    statusKerja:
+        document.getElementById(
+            "statusKerjaPO"
+        ).value,
+
+    catatan:
+        document.getElementById(
+            "catatanPO"
+        ).value,
+
+    pembayaran,
+
+    dibuat:
+        new Date()
+            .toISOString()
+
+};
+
+
+            if (
+                editPOId
+            ) {
+
+                const index =
+                    dataPO.findIndex(
+                        x =>
+                            x.id ===
+                            editPOId
+                    );
+
+
+                if (
+                    index !== -1
+                ) {
+
+                    dataPO[index] =
+                        item;
+
+                }
+
+
+                editPOId =
+                    null;
+
+            } else {
+
+                dataPO.push(
+                    item
+                );
+
+            }
+
+
+            simpanArray(
+                KEY_PO,
+                dataPO
+            );
+
+
+            alert(
+                "Pre-Order berhasil disimpan."
+            );
+
+
+            resetFormPO();
+
+            renderSemua();
+
+        }
+
+
+
+        function editPO(
+            id
+        ) {
+
+            const item =
+                dataPO.find(
+                    x =>
+                        x.id === id
+                );
+
+
+            if (!item) {
+                return;
+            }
+
+
+            editPOId =
+                id;
+
+
+            document.getElementById(
+                "tanggalPO"
+            ).value =
+                item.tanggal || "";
+
+
+            document.getElementById(
+                "pelangganPO"
+            ).value =
+                item.pelanggan || "";
+
+
+            document.getElementById(
+    "produkPO"
+).value =
+    item.produk || "";
+
+            document.getElementById(
+                "qtyPO"
+            ).value =
+                item.qty || 1;
+
+
+            document.getElementById(
+                "hargaUnitPO"
+            ).value =
+                item.hargaUnit ||
+                item.harga ||
+                0;
+
+
+            document.getElementById(
+                "nilaiDPPO"
+            ).value =
+                item.totalDiterima ??
+                item.dp ??
+                0;
+
+
+            document.getElementById(
+                "deadlinePO"
+            ).value =
+                item.deadline || "";
+
+
+            document.getElementById(
+                "statusKerjaPO"
+            ).value =
+                item.statusKerja ||
+                "menunggu";
+
+
+            document.getElementById(
+                "statusBayarPO"
+            ).value =
+                item.statusBayar ||
+                "belum";
+
+
+            document.getElementById(
+                "catatanPO"
+            ).value =
+                item.catatan || "";
+
+
+
+            hitungPO();
+
+
+            document.getElementById(
+                "buttonSimpanPO"
+            ).textContent =
+                "💾 Simpan Perubahan";
+
+
+            document
+                .querySelectorAll(
+                    ".tab-btn"
+                )[1]
+                .click();
+
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+        }
+
+
+
+        function hapusPO(
+            id
+        ) {
+
+            const item =
+                dataPO.find(
+                    x =>
+                        x.id === id
+                );
+
+
+            if (!item) {
+                return;
+            }
+
+
+            if (
+                !confirm(
+                    "Hapus Pre-Order pelanggan \"" +
+                    item.pelanggan +
+                    "\"?"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            dataPO =
+                dataPO.filter(
+                    x =>
+                        x.id !== id
+                );
+
+
+            simpanArray(
+                KEY_PO,
+                dataPO
+            );
+
+
+            renderSemua();
+
+        }
+
+
+
+        function resetFormPO() {
+
+            editPOId =
+                null;
+
+
+            document.getElementById(
+                "tanggalPO"
+            ).value =
+                tanggalHariIni();
+
+
+            document.getElementById(
+                "pelangganPO"
+            ).value =
+                "";
+
+
+            document.getElementById(
+                "produkPO"
+            ).value =
+                "";
+
+
+            document.getElementById(
+                "qtyPO"
+            ).value =
+                1;
+
+
+            document.getElementById(
+                "hargaUnitPO"
+            ).value =
+                "";
+
+
+            document.getElementById(
+                "nilaiDPPO"
+            ).value =
+                0;
+
+
+            document.getElementById(
+                "deadlinePO"
+            ).value =
+                "";
+
+
+            document.getElementById(
+                "statusKerjaPO"
+            ).value =
+                "menunggu";
+
+
+            document.getElementById(
+                "statusBayarPO"
+            ).value =
+                "belum";
+
+
+            document.getElementById(
+                "catatanPO"
+            ).value =
+                "";
+
+
+
+            document.getElementById(
+                "buttonSimpanPO"
+            ).textContent =
+                "💾 Simpan Pre-Order";
+
+
+            hitungPO();
+
+        }
+
+
+
+        /* =====================================================
+           PELUNASAN
+        ===================================================== */
+
+        function lakukanPelunasan(
+            id
+        ) {
+
+            const item =
+                dataPO.find(
+                    x =>
+                        x.id === id
+                );
+
+
+            if (!item) {
+                return;
+            }
+
+
+            const input =
+                document.getElementById(
+                    "pelunasan-" +
+                    id
+                );
+
+
+            if (!input) {
+                return;
+            }
+
+
+            const nominal =
+                Number(
+                    input.value
+                ) || 0;
+
+
+            const total =
+                Number(
+                    item.total
+                ) || 0;
+
+
+            const diterima =
+                Number(
+                    item.totalDiterima ??
+                    item.dp ??
+                    0
+                );
+
+
+            const sisa =
+                Math.max(
+                    total -
+                    diterima,
+                    0
+                );
+
+
+            if (
+                nominal <= 0
+            ) {
+
+                alert(
+                    "Nominal pelunasan harus lebih dari 0."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                nominal > sisa
+            ) {
+
+                alert(
+                    "Nominal pelunasan melebihi sisa pembayaran."
+                );
+
+                return;
+
+            }
+
+
+            const tanggal =
+                tanggalHariIni();
+
+
+            const pembayaran =
+                Array.isArray(
+                    item.pembayaran
+                )
+                    ? item.pembayaran
+                    : [];
+
+
+            pembayaran.push({
+
+                id:
+                    Date.now(),
+
+                tanggal,
+
+                nominal,
+
+                keterangan:
+                    "Pelunasan"
+
+            });
+
+
+            const totalDiterimaBaru =
+                diterima +
+                nominal;
+
+
+            const sisaBaru =
+                Math.max(
+                    total -
+                    totalDiterimaBaru,
+                    0
+                );
+
+
+            item.totalDiterima =
+                totalDiterimaBaru;
+
+
+            item.dp =
+                totalDiterimaBaru;
+
+
+            item.sisa =
+                sisaBaru;
+
+
+            item.pembayaran =
+                pembayaran;
+
+
+            item.statusBayar =
+                sisaBaru <= 0
+                    ? "lunas"
+                    : "dp";
+
+
+            simpanArray(
+                KEY_PO,
+                dataPO
+            );
+
+
+            alert(
+                sisaBaru <= 0
+                    ? "Pembayaran berhasil. Pesanan sekarang LUNAS."
+                    : "Pembayaran berhasil dicatat."
+            );
+
+
+            renderSemua();
+
+        }
+
+
+
+        /* =====================================================
+           RENDER PENJUALAN
+        ===================================================== */
+
+        function renderRiwayatBiasa() {
+
+            const tbody =
+                document.getElementById(
+                    "riwayatBiasa"
+                );
+
+
+            if (!tbody) {
+                return;
+            }
+
+
+            const filterBulan =
+                document.getElementById(
+                    "filterBulanBiasa"
+                ).value;
+
+
+            const filterKanal =
+                document.getElementById(
+                    "filterKanalBiasa"
+                ).value;
+
+
+            let data =
+                [...dataBiasa];
+
+
+            if (
+                filterBulan
+            ) {
+
+                data =
+                    data.filter(
+                        item =>
+                            String(
+                                item.tanggal || ""
+                            ).startsWith(
+                                filterBulan
+                            )
+                    );
+
+            }
+
+
+            if (
+                filterKanal
+            ) {
+
+                data =
+                    data.filter(
+                        item =>
+                            item.kanal ===
+                            filterKanal
+                    );
+
+            }
+
+
+            data.sort(
+                function(a,b) {
+
+                    return String(
+                        b.tanggal || ""
+                    ).localeCompare(
+                        String(
+                            a.tanggal || ""
+                        )
+                    );
+
+                }
+            );
+
+
+            if (
+                data.length === 0
+            ) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="10"
+                            class="empty-state"
+                        >
+                            Belum ada transaksi penjualan.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            let html = "";
+
+
+            data.forEach(
+                function(item) {
+
+                    html += `
+
+                        <tr>
+
+                            <td>
+                                ${formatTanggal(
+                                    item.tanggal
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHTML(
+                                    item.produk
+                                )}
+                            </td>
+
+                            <td>
+                                ${Number(
+                                    item.qty || 0
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHTML(
+                                    kanalLabel(
+                                        item.kanal
+                                    )
+                                )}
+                            </td>
+
+                            <td>
+                                ${rupiah(
+                                    item.kotor
+                                )}
+                            </td>
+
+                            <td>
+                                ${rupiah(
+                                    item.admin
+                                )}
+                            </td>
+
+                            <td>
+                                ${rupiah(
+                                    item.bersih
+                                )}
+                            </td>
+
+                            <td>
+                                ${rupiah(
+                                    item.hppPenjualan
+                                )}
+                            </td>
+
+                            <td>
+                                ${rupiah(
+                                    item.laba
+                                )}
+                            </td>
+
+                            <td>
+
+                                <div
+                                    style="
+                                        display:flex;
+                                        gap:5px;
+                                        flex-wrap:wrap;
+                                    "
+                                >
+
+                                    <button
+                                        class="btn-edit"
+                                        onclick="
+                                            editPenjualanBiasa(
+                                                ${item.id}
+                                            )
+                                        "
+                                    >
+                                        Edit
+                                    </button>
+
+                                    <button
+                                        class="btn-danger"
+                                        onclick="
+                                            hapusPenjualanBiasa(
+                                                ${item.id}
+                                            )
+                                        "
+                                    >
+                                        Hapus
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            );
+
+
+            tbody.innerHTML =
+                html;
+
+        }
+
+
+
+        /* =====================================================
+           RENDER PO
+        ===================================================== */
+
+        function statusClass(
+            status
+        ) {
+
+            if (
+                status === "lunas"
+            ) {
+
+                return "status status-lunas";
+
+            }
+
+
+            if (
+                status === "dp"
+            ) {
+
+                return "status status-dp";
+
+            }
+
+
+            if (
+                status === "proses"
+            ) {
+
+                return "status status-proses";
+
+            }
+
+
+            if (
+                status === "selesai" ||
+                status === "diserahkan"
+            ) {
+
+                return "status status-selesai";
+
+            }
+
+
+            return "status status-belum";
+
+        }
+
+
+
+        function statusLabel(
+            status
+        ) {
+
+            const labels = {
+
+                lunas:
+                    "Lunas",
+
+                dp:
+                    "DP",
+
+                belum:
+                    "Belum Bayar",
+
+                menunggu:
+                    "Menunggu",
+
+                proses:
+                    "Proses",
+
+                selesai:
+                    "Selesai",
+
+                diserahkan:
+                    "Diserahkan",
+
+                dibatalkan:
+                    "Dibatalkan"
+
+            };
+
+
+            return (
+                labels[status] ||
+                status ||
+                "-"
+            );
+
+        }
+
+
+
+        function renderRiwayatPO() {
+
+            const tbody =
+                document.getElementById(
+                    "riwayatPO"
+                );
+
+
+            if (!tbody) {
+                return;
+            }
+
+
+            const data =
+                [...dataPO].sort(
+                    function(a,b) {
+
+                        return String(
+                            b.tanggal || ""
+                        ).localeCompare(
+                            String(
+                                a.tanggal || ""
+                            )
+                        );
+
+                    }
+                );
+
+
+            if (
+                data.length === 0
+            ) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="11"
+                            class="empty-state"
+                        >
+                            Belum ada Pre-Order.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            let html = "";
+
+
+            data.forEach(
+                function(item) {
+
+                    const total =
+                        Number(
+                            item.total
+                        ) || 0;
+
+
+                    const diterima =
+                        Number(
+                            item.totalDiterima ??
+                            item.dp ??
+                            0
+                        );
+
+
+                    const sisa =
+                        Math.max(
+                            total -
+                            diterima,
+                            0
+                        );
+
+
+                    html += `
+
+                        <tr>
+
+                            <td>
+                                ${formatTanggal(
+                                    item.tanggal
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHTML(
+                                    item.pelanggan
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHTML(
+                                    item.produk
+                                )}
+                            </td>
+
+                            <td>
+                                ${Number(
+                                    item.qty || 0
+                                )}
+                            </td>
+
+                            <td>
+                                ${rupiah(
+                                    total
+                                )}
+                            </td>
+
+                            <td>
+                                ${rupiah(
+                                    diterima
+                                )}
+                            </td>
+
+                            <td>
+                                ${rupiah(
+                                    sisa
+                                )}
+                            </td>
+
+                            <td>
+                                ${formatTanggal(
+                                    item.deadline
+                                )}
+                            </td>
+
+                            <td>
+                                <span
+                                    class="${statusClass(
+                                        item.statusKerja
+                                    )}"
+                                >
+                                    ${escapeHTML(
+                                        statusLabel(
+                                            item.statusKerja
+                                        )
+                                    )}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span
+                                    class="${statusClass(
+                                        item.statusBayar
+                                    )}"
+                                >
+                                    ${escapeHTML(
+                                        statusLabel(
+                                            item.statusBayar
+                                        )
+                                    )}
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <div
+                                    style="
+                                        display:flex;
+                                        gap:5px;
+                                        flex-wrap:wrap;
+                                    "
+                                >
+
+                                    <button
+                                        class="btn-edit"
+                                        onclick="
+                                            editPO(
+                                                ${item.id}
+                                            )
+                                        "
+                                    >
+                                        Edit
+                                    </button>
+
+                                    <button
+                                        class="btn-danger"
+                                        onclick="
+                                            hapusPO(
+                                                ${item.id}
+                                            )
+                                        "
+                                    >
+                                        Hapus
+                                    </button>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            );
+
+
+            tbody.innerHTML =
+                html;
+
+        }
+
+
+
+        /* =====================================================
+           RENDER PELUNASAN
+        ===================================================== */
+
+        function renderPelunasan() {
+
+            const container =
+                document.getElementById(
+                    "daftarPelunasan"
+                );
+
+
+            if (!container) {
+                return;
+            }
+
+
+            let belumLunas = 0;
+
+            let totalSisa = 0;
+
+            let jumlahLunas = 0;
+
+
+            dataPO.forEach(
+                function(item) {
+
+                    const total =
+                        Number(
+                            item.total
+                        ) || 0;
+
+
+                    const diterima =
+                        Number(
+                            item.totalDiterima ??
+                            item.dp ??
+                            0
+                        );
+
+
+                    const sisa =
+                        Math.max(
+                            total -
+                            diterima,
+                            0
+                        );
+
+
+                    if (
+                        sisa > 0
+                    ) {
+
+                        belumLunas++;
+
+                        totalSisa +=
+                            sisa;
+
+                    } else {
+
+                        jumlahLunas++;
+
+                    }
+
+                }
+            );
+
+
+            document.getElementById(
+                "jumlahBelumLunas"
+            ).textContent =
+                belumLunas;
+
+
+            document.getElementById(
+                "totalSisaPelunasan"
+            ).textContent =
+                rupiah(
+                    totalSisa
+                );
+
+
+            document.getElementById(
+                "jumlahLunas"
+            ).textContent =
+                jumlahLunas;
+
+
+            const tagihan =
+                dataPO.filter(
+                    function(item) {
+
+                        const total =
+                            Number(
+                                item.total
+                            ) || 0;
+
+
+                        const diterima =
+                            Number(
+                                item.totalDiterima ??
+                                item.dp ??
+                                0
+                            );
+
+
+                        return (
+                            total -
+                            diterima
+                        ) > 0;
+
+                    }
+                );
+
+
+            if (
+                tagihan.length === 0
+            ) {
+
+                container.innerHTML = `
+                    <div class="empty-state">
+                        Tidak ada tagihan yang belum lunas.
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            let html = "";
+
+
+            tagihan.forEach(
+                function(item) {
+
+                    const total =
+                        Number(
+                            item.total
+                        ) || 0;
+
+
+                    const diterima =
+                        Number(
+                            item.totalDiterima ??
+                            item.dp ??
+                            0
+                        );
+
+
+                    const sisa =
+                        Math.max(
+                            total -
+                            diterima,
+                            0
+                        );
+
+
+                    html += `
+
+                        <div
+                            class="piutang-card"
+                        >
+
+                            <div
+                                class="piutang-header"
+                            >
+
+                                <div>
+
+                                    <div
+                                        class="piutang-title"
+                                    >
+                                        ${escapeHTML(
+                                            item.pelanggan
+                                        )}
+                                    </div>
+
+                                    <div
+                                        class="piutang-subtitle"
+                                    >
+                                        ${escapeHTML(
+                                            item.produk
+                                        )}
+                                    </div>
+
+                                </div>
+
+
+                                <span
+                                    class="status status-dp"
+                                >
+                                    ${escapeHTML(
+                                        statusLabel(
+                                            item.statusBayar
+                                        )
+                                    )}
+                                </span>
+
+                            </div>
+
+
+                            <div
+                                class="piutang-grid"
+                            >
+
+                                <div
+                                    class="piutang-item"
+                                >
+
+                                    <span>
+                                        Total PO
+                                    </span>
+
+                                    <strong>
+                                        ${rupiah(
+                                            total
+                                        )}
+                                    </strong>
+
+                                </div>
+
+
+                                <div
+                                    class="piutang-item"
+                                >
+
+                                    <span>
+                                        Sudah Dibayar
+                                    </span>
+
+                                    <strong>
+                                        ${rupiah(
+                                            diterima
+                                        )}
+                                    </strong>
+
+                                </div>
+
+
+                                <div
+                                    class="piutang-item"
+                                >
+
+                                    <span>
+                                        Sisa
+                                    </span>
+
+                                    <strong>
+                                        ${rupiah(
+                                            sisa
+                                        )}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                class="pelunasan-form"
+                            >
+
+                                <div
+                                    class="form-group"
+                                >
+
+                                    <label>
+                                        Nominal Pembayaran
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        id="pelunasan-${item.id}"
+                                        placeholder="Nominal"
+                                    >
+
+                                </div>
+
+
+                                <div
+                                    class="form-group"
+                                >
+
+                                    <label>
+                                        Deadline
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        value="${escapeHTML(
+                                            formatTanggal(
+                                                item.deadline
+                                            )
+                                        )}"
+                                        readonly
+                                    >
+
+                                </div>
+
+
+                                <button
+                                    type="button"
+                                    class="btn-small"
+                                    onclick="
+                                        lakukanPelunasan(
+                                            ${item.id}
+                                        )
+                                    "
+                                >
+                                    + Pelunasan
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            container.innerHTML =
+                html;
+
+        }
+
+
+
+        /* =====================================================
+           RINGKASAN
+        ===================================================== */
+
+        function renderRingkasan() {
+
+            let kotor = 0;
+
+            let admin = 0;
+
+            let bersih = 0;
+
+            let hpp = 0;
+
+            let laba = 0;
+
+            let sisaPO = 0;
+
+
+            dataBiasa.forEach(
+                function(item) {
+
+                    kotor +=
+                        Number(
+                            item.kotor
+                        ) || 0;
+
+                    admin +=
+                        Number(
+                            item.admin
+                        ) || 0;
+
+                    bersih +=
+                        Number(
+                            item.bersih
+                        ) || 0;
+
+                    hpp +=
+                        Number(
+                            item.hppPenjualan
+                        ) || 0;
+
+                    laba +=
+                        Number(
+                            item.laba
+                        ) || 0;
+
+                }
+            );
+
+
+            dataPO.forEach(
+                function(item) {
+
+                    const total =
+                        Number(
+                            item.total
+                        ) || 0;
+
+
+                    const diterima =
+                        Number(
+                            item.totalDiterima ??
+                            item.dp ??
+                            0
+                        );
+
+
+                    sisaPO +=
+                        Math.max(
+                            total -
+                            diterima,
+                            0
+                        );
+
+                }
+            );
+
+
+            document.getElementById(
+                "ringkasanKotor"
+            ).textContent =
+                rupiah(kotor);
+
+
+            document.getElementById(
+                "ringkasanAdmin"
+            ).textContent =
+                rupiah(admin);
+
+
+            document.getElementById(
+                "ringkasanBersih"
+            ).textContent =
+                rupiah(bersih);
+
+
+            document.getElementById(
+                "ringkasanHPP"
+            ).textContent =
+                rupiah(hpp);
+
+
+            document.getElementById(
+                "ringkasanLaba"
+            ).textContent =
+                rupiah(laba);
+
+
+            document.getElementById(
+                "ringkasanDP"
+            ).textContent =
+                rupiah(sisaPO);
+
+        }
+
+
+
+        /* =====================================================
+           RENDER SEMUA
+        ===================================================== */
+
+        function renderSemua() {
+
+            dataBiasa =
+                ambilArray(
+                    KEY_PENJUALAN
+                );
+
+
+            dataPO =
+                ambilArray(
+                    KEY_PO
+                );
+
+
+            renderRiwayatBiasa();
+
+            renderRiwayatPO();
+
+            renderPelunasan();
+
+            renderRingkasan();
+
+        }
+
+
+
+        /* =====================================================
+           INIT
+        ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadDataHPP();
+
+                resetFormBiasa();
+
+                resetFormPO();
+
+                renderSemua();
+
+            }
+        );
+
+
+
+        /* =====================================================
+           UPDATE SAAT STORAGE BERUBAH
+        ===================================================== */
+
+        window.addEventListener(
+            "storage",
+            function(event) {
+
+                if (
+                    event.key ===
+                        KEY_HPP ||
+                    event.key ===
+                        KEY_PENJUALAN ||
+                    event.key ===
+                        KEY_PO
+                ) {
+
+                    loadDataHPP();
+
+                    renderSemua();
+
+                }
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>
+```
