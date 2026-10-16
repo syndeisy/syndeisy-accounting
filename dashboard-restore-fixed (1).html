@@ -1,0 +1,1422 @@
+
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard - Syndeisy Accounting System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff9f7;
+            color: #333;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #570909;
+            color: white;
+            padding: 30px 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .system-name {
+            font-size: 12px;
+            opacity: 0.75;
+            margin-bottom: 40px;
+        }
+
+        .menu {
+            list-style: none;
+        }
+
+        .menu li {
+            margin-bottom: 8px;
+        }
+
+        .menu a {
+            display: block;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 25px;
+            left: 20px;
+            right: 20px;
+        }
+
+        .logout a {
+            display: block;
+            padding: 11px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 240px;
+            padding: 40px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #570909;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            border: 1px solid #eadbd7;
+            box-shadow: 0 8px 20px rgba(87, 9, 9, 0.05);
+        }
+
+        .card-title {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .card-value {
+            color: #570909;
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           GRAFIK
+        ========================= */
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            border: 1px solid #eadbd7;
+        }
+
+        .section h2 {
+            color: #570909;
+            font-size: 19px;
+            margin-bottom: 25px;
+        }
+
+        .chart {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .chart-row {
+            display: grid;
+            grid-template-columns: 130px 1fr 120px;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chart-label {
+            color: #555;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .chart-track {
+            width: 100%;
+            height: 28px;
+            background: #f3e9e6;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .chart-bar {
+            height: 100%;
+            width: 0;
+            background: #570909;
+            border-radius: 8px;
+            transition: width 0.5s ease;
+        }
+
+        .chart-value {
+            color: #570909;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .chart-note {
+            margin-top: 25px;
+            padding-top: 18px;
+            border-top: 1px solid #f0e5e2;
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* =========================
+           BACKUP & RESTORE
+        ========================= */
+
+        .backup-section {
+            margin-top: 20px;
+        }
+
+        .backup-description {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .backup-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .backup-button {
+            border: none;
+            border-radius: 10px;
+            padding: 11px 18px;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .backup-button.primary {
+            background: #570909;
+            color: white;
+        }
+
+        .backup-button.secondary {
+            background: #fff9f7;
+            color: #570909;
+            border: 1px solid #eadbd7;
+        }
+
+        .backup-button:hover {
+            opacity: 0.88;
+            transform: translateY(-1px);
+        }
+
+        .backup-status {
+            margin-top: 15px;
+            color: #777;
+            font-size: 12px;
+            line-height: 1.5;
+            min-height: 18px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .logout {
+                position: static;
+                margin-top: 20px;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 25px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-row {
+                grid-template-columns: 100px 1fr;
+            }
+
+            .chart-value {
+                grid-column: 2;
+                text-align: left;
+                margin-top: -8px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            SYNDEISY
+        </div>
+
+        <div class="system-name">
+            Accounting System
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a
+                    href="dashboard.html"
+                    class="active"
+                >
+                    🍒 Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="hpp.html">
+                    🌻 HPPenjualan
+                </a>
+            </li>
+
+            <li>
+                <a href="pemasukan.html">
+                    🌷 Pemasukan
+                </a>
+            </li>
+
+            <li>
+                <a href="pengeluaran.html">
+                    🌼 Pengeluaran
+                </a>
+            </li>
+
+            <li>
+                <a href="laporan.html">
+                    📊 Laporan Laba Rugi
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="logout">
+            <a href="index.html">
+                Keluar
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="main">
+
+        <div class="header">
+
+            <h1>
+                Dashboard
+            </h1>
+
+            <p>
+                Selamat datang di Syndeisy Accounting System 👋
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             SUMMARY
+        ========================= -->
+
+        <div class="summary">
+
+            <div class="card">
+
+                <div class="card-title">
+                    Total Pemasukan
+                </div>
+
+                <div
+                    class="card-value"
+                    id="totalUangMasuk"
+                >
+                    Rp0
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Total Pengeluaran
+                </div>
+
+                <div
+                    class="card-value"
+                    id="totalPengeluaran"
+                >
+                    Rp0
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Kas Bersih
+                </div>
+
+                <div
+                    class="card-value"
+                    id="kasBersih"
+                >
+                    Rp0
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             GRAFIK ARUS UANG
+        ========================= -->
+
+        <div class="section">
+
+            <h2>
+                Perbandingan Uang Masuk dan Keluar
+            </h2>
+
+            <div class="chart">
+
+                <div class="chart-row">
+
+                    <div class="chart-label">
+                        Uang Masuk
+                    </div>
+
+                    <div class="chart-track">
+
+                        <div
+                            class="chart-bar"
+                            id="barUangMasuk"
+                        ></div>
+
+                    </div>
+
+                    <div
+                        class="chart-value"
+                        id="nilaiUangMasuk"
+                    >
+                        Rp0
+                    </div>
+
+                </div>
+
+
+                <div class="chart-row">
+
+                    <div class="chart-label">
+                        Uang Keluar
+                    </div>
+
+                    <div class="chart-track">
+
+                        <div
+                            class="chart-bar"
+                            id="barUangKeluar"
+                        ></div>
+
+                    </div>
+
+                    <div
+                        class="chart-value"
+                        id="nilaiUangKeluar"
+                    >
+                        Rp0
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             BACKUP & RESTORE
+        ========================= -->
+
+        <div class="section backup-section">
+
+            <h2>
+                Backup & Restore Data
+            </h2>
+
+            <div class="backup-actions">
+
+                <button
+                    type="button"
+                    class="backup-button primary"
+                    id="backupButton"
+                >
+                    💾 Backup Data
+                </button>
+
+                <button
+                    type="button"
+                    class="backup-button secondary"
+                    id="restoreButton"
+                >
+                    📂 Restore Data
+                </button>
+
+            </div>
+
+            <input
+                type="file"
+                id="restoreFile"
+                accept=".json,application/json"
+                hidden
+            >
+
+            <div
+                class="backup-status"
+                id="backupStatus"
+            ></div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        /* =========================
+           LOCAL STORAGE KEY
+        ========================= */
+
+        const KEY_PENJUALAN =
+            "sistem_keuangan_penjualan";
+
+        const KEY_PENGELUARAN =
+            "syndeisy_pengeluaran_history";
+
+        const KEY_PO =
+            "sistem_keuangan_preorder";
+
+
+        /* =========================
+           FORMAT RUPIAH
+        ========================= */
+
+        function rupiah(angka) {
+
+            const nilai =
+                Number(angka) || 0;
+
+            return "Rp" +
+                Math.round(nilai)
+                    .toLocaleString("id-ID");
+        }
+
+
+        /* =========================
+           BACA LOCAL STORAGE
+        ========================= */
+
+        function bacaArrayStorage(key) {
+
+            const data =
+                localStorage.getItem(key);
+
+            if (!data) {
+                return [];
+            }
+
+            try {
+
+                const parsed =
+                    JSON.parse(data);
+
+                if (Array.isArray(parsed)) {
+                    return parsed;
+                }
+
+                if (
+                    parsed &&
+                    Array.isArray(parsed.data)
+                ) {
+                    return parsed.data;
+                }
+
+                if (
+                    parsed &&
+                    Array.isArray(parsed.history)
+                ) {
+                    return parsed.history;
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    "Storage tidak dapat dibaca:",
+                    key,
+                    error
+                );
+
+            }
+
+            return [];
+        }
+
+
+        /* =========================
+           AMBIL FIELD
+        ========================= */
+
+        function ambilField(
+            object,
+            kemungkinan,
+            defaultValue = 0
+        ) {
+
+            for (
+                const key of kemungkinan
+            ) {
+
+                if (
+                    object &&
+                    object[key] !== undefined &&
+                    object[key] !== null &&
+                    object[key] !== ""
+                ) {
+
+                    return object[key];
+                }
+
+            }
+
+            return defaultValue;
+        }
+
+
+        /* =========================
+           DATA PENJUALAN
+        ========================= */
+
+        function ambilDataPenjualan() {
+
+            return bacaArrayStorage(
+                KEY_PENJUALAN
+            );
+        }
+
+
+        /* =========================
+           DATA PENGELUARAN
+        ========================= */
+
+        function ambilDataPengeluaran() {
+
+            return bacaArrayStorage(
+                KEY_PENGELUARAN
+            );
+        }
+
+
+        /* =========================
+           DATA PO
+        ========================= */
+
+        function ambilDataPO() {
+
+            return bacaArrayStorage(
+                KEY_PO
+            );
+        }
+
+
+        /* =========================
+           HITUNG PEMBAYARAN PO
+           SAMA DENGAN LAPORAN
+        ========================= */
+
+        function hitungPembayaranPO() {
+
+            const data =
+                ambilDataPO();
+
+            let totalDiterima = 0;
+
+            data.forEach(
+                function(item) {
+
+                    if (
+                        Array.isArray(
+                            item.pembayaran
+                        )
+                    ) {
+
+                        item.pembayaran.forEach(
+                            function(pembayaran) {
+
+                                totalDiterima +=
+                                    Number(
+                                        pembayaran.nominal
+                                    ) || 0;
+
+                            }
+                        );
+
+                    }
+
+                }
+            );
+
+            return totalDiterima;
+        }
+
+
+        /* =========================
+           HITUNG PENJUALAN
+           SAMA DENGAN LAPORAN
+        ========================= */
+
+        function hitungPenjualan() {
+
+            const data =
+                ambilDataPenjualan();
+
+            let totalKotor = 0;
+
+            let totalBersih = 0;
+
+            data.forEach(
+                function(item) {
+
+                    const kotor =
+                        Number(
+                            ambilField(
+                                item,
+                                [
+                                    "kotor",
+                                    "totalKotor",
+                                    "penjualan",
+                                    "hargaTotal"
+                                ],
+                                0
+                            )
+                        ) || 0;
+
+
+                    const admin =
+                        Number(
+                            ambilField(
+                                item,
+                                [
+                                    "admin",
+                                    "biayaAdmin"
+                                ],
+                                0
+                            )
+                        ) || 0;
+
+
+                    const bersih =
+                        Number(
+                            ambilField(
+                                item,
+                                [
+                                    "bersih",
+                                    "pendapatanBersih",
+                                    "netto"
+                                ],
+                                kotor - admin
+                            )
+                        ) || 0;
+
+
+                    totalKotor += kotor;
+
+                    totalBersih += bersih;
+
+                }
+            );
+
+
+            return {
+                totalKotor,
+                totalBersih
+            };
+
+        }
+
+
+        /* =========================
+           HITUNG PENGELUARAN
+           SAMA DENGAN LAPORAN
+        ========================= */
+
+        function hitungPengeluaran() {
+
+            const data =
+                ambilDataPengeluaran();
+
+            let total = 0;
+
+            data.forEach(
+                function(item) {
+
+                    const nilai =
+                        Number(
+                            ambilField(
+                                item,
+                                [
+                                    "jumlah",
+                                    "nominal",
+                                    "harga",
+                                    "total",
+                                    "nilai",
+                                    "biaya"
+                                ],
+                                0
+                            )
+                        ) || 0;
+
+                    total += nilai;
+
+                }
+            );
+
+            return total;
+        }
+
+
+        /* =========================
+           HITUNG DATA DASHBOARD
+           IDENTIK DENGAN LAPORAN
+        ========================= */
+
+        function hitungDashboard() {
+
+            const penjualan =
+                hitungPenjualan();
+
+            const pembayaranPO =
+                hitungPembayaranPO();
+
+            const pengeluaran =
+                hitungPengeluaran();
+
+
+            /*
+             * Total Uang Masuk =
+             * Pendapatan Bersih Penjualan
+             * + Pembayaran PO
+             */
+
+            const totalUangMasuk =
+                penjualan.totalBersih +
+                pembayaranPO;
+
+
+            /*
+             * Kas Bersih =
+             * Total Uang Masuk
+             * - Total Pengeluaran
+             */
+
+            const kasBersih =
+                totalUangMasuk -
+                pengeluaran;
+
+
+            return {
+
+                totalUangMasuk,
+
+                totalPengeluaran:
+                    pengeluaran,
+
+                kasBersih
+
+            };
+
+        }
+
+
+        /* =========================
+           RENDER DASHBOARD
+        ========================= */
+
+        function renderDashboard() {
+
+            const data =
+                hitungDashboard();
+
+
+            /* =========================
+               CARD
+            ========================= */
+
+            document.getElementById(
+                "totalUangMasuk"
+            ).textContent =
+                rupiah(
+                    data.totalUangMasuk
+                );
+
+
+            document.getElementById(
+                "totalPengeluaran"
+            ).textContent =
+                rupiah(
+                    data.totalPengeluaran
+                );
+
+
+            document.getElementById(
+                "kasBersih"
+            ).textContent =
+                rupiah(
+                    data.kasBersih
+                );
+
+
+            /* =========================
+               NILAI GRAFIK
+            ========================= */
+
+            document.getElementById(
+                "nilaiUangMasuk"
+            ).textContent =
+                rupiah(
+                    data.totalUangMasuk
+                );
+
+
+            document.getElementById(
+                "nilaiUangKeluar"
+            ).textContent =
+                rupiah(
+                    data.totalPengeluaran
+                );
+
+
+            /* =========================
+               SKALA GRAFIK
+            ========================= */
+
+            const nilaiMasuk =
+                Number(
+                    data.totalUangMasuk
+                ) || 0;
+
+            const nilaiKeluar =
+                Number(
+                    data.totalPengeluaran
+                ) || 0;
+
+            const nilaiMaksimum =
+                Math.max(
+                    nilaiMasuk,
+                    nilaiKeluar,
+                    1
+                );
+
+
+            const persenMasuk =
+                (
+                    nilaiMasuk /
+                    nilaiMaksimum
+                ) * 100;
+
+
+            const persenKeluar =
+                (
+                    nilaiKeluar /
+                    nilaiMaksimum
+                ) * 100;
+
+
+            document.getElementById(
+                "barUangMasuk"
+            ).style.width =
+                persenMasuk + "%";
+
+
+            document.getElementById(
+                "barUangKeluar"
+            ).style.width =
+                persenKeluar + "%";
+
+        }
+
+
+        /* =========================
+           BACKUP SELURUH LOCAL STORAGE
+        ========================= */
+
+        function backupData() {
+
+            try {
+
+                const backup = {
+
+                    namaSistem:
+                        "Syndeisy Accounting System",
+
+                    versiBackup:
+                        "1.0",
+
+                    tanggalBackup:
+                        new Date().toISOString(),
+
+                    origin:
+                        window.location.origin,
+
+                    data: {}
+
+                };
+
+
+                /*
+                 * Ambil SEMUA data yang ada
+                 * di Local Storage.
+                 *
+                 * Jadi tidak hanya:
+                 * pemasukan,
+                 * pengeluaran,
+                 * atau PO.
+                 *
+                 * Semua key ikut dicadangkan.
+                 */
+
+                for (
+                    let i = 0;
+                    i < localStorage.length;
+                    i++
+                ) {
+
+                    const key =
+                        localStorage.key(i);
+
+                    if (key !== null) {
+
+                        backup.data[key] =
+                            localStorage.getItem(key);
+
+                    }
+
+                }
+
+
+                const json =
+                    JSON.stringify(
+                        backup,
+                        null,
+                        2
+                    );
+
+
+                const blob =
+                    new Blob(
+                        [json],
+                        {
+                            type:
+                                "application/json"
+                        }
+                    );
+
+
+                const url =
+                    URL.createObjectURL(
+                        blob
+                    );
+
+
+                const link =
+                    document.createElement(
+                        "a"
+                    );
+
+                const tanggal =
+                    new Date()
+                        .toISOString()
+                        .slice(0, 10);
+
+
+                link.href = url;
+
+                link.download =
+                    "syndeisy-backup-" +
+                    tanggal +
+                    ".json";
+
+
+                document.body.appendChild(
+                    link
+                );
+
+                link.click();
+
+                document.body.removeChild(
+                    link
+                );
+
+
+                URL.revokeObjectURL(
+                    url
+                );
+
+
+                const jumlahData =
+                    Object.keys(
+                        backup.data
+                    ).length;
+
+
+                document.getElementById(
+                    "backupStatus"
+                ).textContent =
+                    "Backup berhasil. " +
+                    jumlahData +
+                    " data Local Storage " +
+                    "telah disimpan.";
+
+            } catch (error) {
+
+                console.error(
+                    "Backup gagal:",
+                    error
+                );
+
+                document.getElementById(
+                    "backupStatus"
+                ).textContent =
+                    "Backup gagal. Silakan coba lagi.";
+
+            }
+
+        }
+
+
+        /* =========================
+           RESTORE SELURUH LOCAL STORAGE
+        ========================= */
+
+        function restoreData(file) {
+
+            if (!file) {
+                return;
+            }
+
+            const status = document.getElementById("backupStatus");
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                let backup;
+
+                try {
+                    backup = JSON.parse(event.target.result);
+                } catch (error) {
+                    console.error("JSON backup tidak dapat dibaca:", error);
+                    status.textContent =
+                        "Restore gagal: isi file bukan JSON yang valid.";
+                    return;
+                }
+
+                /*
+                 * Validasi dilakukan SEBELUM mengubah Local Storage.
+                 * File backup boleh berisi sebagian key saja.
+                 */
+                if (
+                    !backup ||
+                    typeof backup !== "object" ||
+                    !backup.data ||
+                    typeof backup.data !== "object" ||
+                    Array.isArray(backup.data)
+                ) {
+                    status.textContent =
+                        "Restore gagal: struktur file backup tidak sesuai.";
+                    return;
+                }
+
+                const keys = Object.keys(backup.data);
+
+                if (keys.length === 0) {
+                    status.textContent =
+                        "Restore gagal: file backup tidak berisi data.";
+                    return;
+                }
+
+                const dataValid = keys.every(function(key) {
+                    const value = backup.data[key];
+                    return typeof key === "string" &&
+                        (typeof value === "string" ||
+                         typeof value === "number" ||
+                         typeof value === "boolean" ||
+                         value === null);
+                });
+
+                if (!dataValid) {
+                    status.textContent =
+                        "Restore gagal: ada nilai data yang formatnya tidak didukung.";
+                    return;
+                }
+
+                const konfirmasi = confirm(
+                    "File backup berisi " + keys.length + " data. " +
+                    "Data dari file akan dimasukkan ke perangkat ini. " +
+                    "Data lain yang sudah ada di HP tidak akan dihapus. " +
+                    "Lanjutkan?"
+                );
+
+                if (!konfirmasi) {
+                    status.textContent = "Restore dibatalkan.";
+                    return;
+                }
+
+                /*
+                 * Simpan data yang ada di HP. Jangan gunakan
+                 * localStorage.clear(), agar key lain di HP tidak hilang.
+                 * Simpan salinan sementara agar bisa dipulihkan jika gagal.
+                 */
+                const sebelumnya = {};
+                keys.forEach(function(key) {
+                    sebelumnya[key] = localStorage.getItem(key);
+                });
+
+                try {
+                    keys.forEach(function(key) {
+                        const value = backup.data[key];
+                        localStorage.setItem(
+                            key,
+                            value === null ? "null" : String(value)
+                        );
+                    });
+
+                    status.textContent =
+                        "Restore berhasil. " + keys.length +
+                        " data dipulihkan. Halaman akan dimuat ulang.";
+
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1200);
+
+                } catch (error) {
+                    console.error("Restore gagal:", error);
+
+                    /* Kembalikan key yang sempat berubah jika ada error. */
+                    keys.forEach(function(key) {
+                        try {
+                            if (sebelumnya[key] === null) {
+                                localStorage.removeItem(key);
+                            } else {
+                                localStorage.setItem(key, sebelumnya[key]);
+                            }
+                        } catch (rollbackError) {
+                            console.error("Pemulihan data gagal:", rollbackError);
+                        }
+                    });
+
+                    status.textContent =
+                        "Restore gagal saat menyimpan data ke browser. " +
+                        "Data lama dipertahankan sebisa mungkin. " +
+                        "Coba buka website di browser biasa, bukan mode privat.";
+                }
+            };
+
+            reader.onerror = function() {
+                status.textContent =
+                    "Restore gagal: HP atau browser tidak dapat membaca file.";
+            };
+
+            reader.readAsText(file);
+        }
+
+        /* =========================
+           TOMBOL BACKUP
+        ========================= */
+
+        document.getElementById(
+            "backupButton"
+        ).addEventListener(
+            "click",
+            function() {
+
+                backupData();
+
+            }
+        );
+
+
+        /* =========================
+           TOMBOL RESTORE
+        ========================= */
+
+        document.getElementById(
+            "restoreButton"
+        ).addEventListener(
+            "click",
+            function() {
+
+                document.getElementById(
+                    "restoreFile"
+                ).click();
+
+            }
+        );
+
+
+        /* =========================
+           FILE RESTORE DIPILIH
+        ========================= */
+
+        document.getElementById(
+            "restoreFile"
+        ).addEventListener(
+            "change",
+            function(event) {
+
+                const file =
+                    event.target.files[0];
+
+                restoreData(
+                    file
+                );
+
+                /*
+                 * Reset input supaya file
+                 * yang sama bisa dipilih lagi
+                 * jika diperlukan.
+                 */
+
+                event.target.value =
+                    "";
+
+            }
+        );
+
+
+        /* =========================
+           LOAD
+        ========================= */
+
+        function loadDashboard() {
+
+            renderDashboard();
+
+        }
+
+
+        /* =========================
+           HALAMAN DIBUKA
+        ========================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadDashboard();
+
+            }
+        );
+
+
+        /* =========================
+           STORAGE EVENT
+        ========================= */
+
+        window.addEventListener(
+            "storage",
+            function() {
+
+                loadDashboard();
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
